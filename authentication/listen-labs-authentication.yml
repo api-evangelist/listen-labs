@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/listen-labs-study-data-openapi.json, openapi/listen-labs-v2-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  description: API key scoped to a single organization. Contact support@listenlabs.ai to request
+    one.
+  sources:
+  - openapi/listen-labs-study-data-openapi.json
+  - openapi/listen-labs-v2-openapi.yml
