@@ -1,27 +1,129 @@
 aid: listen-labs
 name: Listen Labs
-description: 'Listen Labs is a company surfaced as a portfolio company of ribbit-capital and added to
-  the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the
-  enrichment pipeline.'
+description: 'Listen Labs is an AI-powered customer research platform that runs AI-moderated user
+  interviews end to end: you define a research goal and a study guide, Listen recruits and screens
+  participants from its panel or your own list, conducts multilingual voice interviews with an AI
+  moderator, and then analyzes the transcripts into themes, segments, executive summaries, video
+  highlight reels, and sourced quotes. The platform is programmable through a public REST API that
+  lets you create a draft study from a JSON study guide, launch it to obtain a self-recruit link,
+  and pull back responses, answers, transcripts, and per-question analysis. Listen Labs also
+  publishes an officially hosted remote MCP server with OAuth 2.1 so agents in Claude, ChatGPT, and
+  Codex can create, edit, launch, and analyze studies conversationally.'
 url: https://raw.githubusercontent.com/api-evangelist/listen-labs/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://framerusercontent.com/images/RGXJ1tjBzZi8qrkze1vrTFOQw.webp
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - ribbit-capital
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: public-api-openapi-mcp
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
 - Ai
-apis: []
+- Market Research
+- Customer Research
+- User Interviews
+- Surveys
+- Qualitative Research
+- Voice AI
+- Insights
+- Agents
+apis:
+- aid: listen-labs:listen-labs-public-api
+  name: Listen Labs Public API
+  description: The Public API from Listen Labs — 9 operation(s) for public.
+  humanURL: https://docs.listenlabs.ai/endpoint
+  baseURL: https://listenlabs.ai
+  tags:
+  - Public
+  properties:
+  - type: OpenAPI
+    url: openapi/listen-labs-public-api-openapi.yml
+  - type: Documentation
+    url: https://docs.listenlabs.ai/data-map
+  - type: Documentation
+    url: https://docs.listenlabs.ai/api-v2/overview
+  - type: Quickstart
+    url: https://docs.listenlabs.ai/api-v2/quickstart
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: TrustCenter
+  url: security/listen-labs-trust-center.yml
 - type: Website
   url: https://www.listenlabs.ai
+- type: DeveloperPortal
+  url: https://docs.listenlabs.ai
+- type: Documentation
+  url: https://docs.listenlabs.ai
+- type: APIReference
+  url: https://docs.listenlabs.ai/api-v2/overview
+- type: GettingStarted
+  url: https://docs.listenlabs.ai/api-v2/quickstart
+- type: SignUp
+  url: https://listenlabs.ai/auth
+- type: Support
+  url: mailto:support@listenlabs.ai
+- type: Blog
+  url: https://blog.listenlabs.ai
+- type: TermsOfService
+  url: https://www.listenlabs.ai/terms
+- type: PrivacyPolicy
+  url: https://www.listenlabs.ai/privacy
+- type: Compliance
+  url: https://trust.listenlabs.ai
+- type: GitHubOrganization
+  url: https://github.com/MerlinAGI
+- type: Careers
+  url: https://www.listenlabs.ai/careers
+- type: YouTube
+  url: https://www.youtube.com/@ListenLabsAI
+- type: Authentication
+  url: authentication/listen-labs-authentication.yml
+- type: MCPServer
+  url: mcp/listen-labs-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/listen-labs-llms.txt
+- type: WellKnown
+  url: well-known/listen-labs-well-known.yml
+- type: Packages
+  url: packages/listen-labs-packages.yml
+- type: Conventions
+  url: conventions/listen-labs-conventions.yml
+- type: ErrorCatalog
+  url: errors/listen-labs-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/listen-labs-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/listen-labs-lifecycle.yml
+- type: Conformance
+  url: conformance/listen-labs-conformance.yml
+- type: DataModel
+  url: data-model/listen-labs-data-model.yml
+- type: DomainSecurity
+  url: security/listen-labs-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
