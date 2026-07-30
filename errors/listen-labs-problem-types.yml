@@ -1,0 +1,145 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.listenlabs.ai/api-v2/overview#errors
+derived_from:
+- openapi/listen-labs-v2-openapi.yml
+- openapi/listen-labs-study-data-openapi.json
+format: custom
+rfc9457: false
+content_type: application/json
+envelope:
+  fields:
+  - name: error
+    type: string
+    stable: false
+    description: Human-readable message. Useful for logs, but it may change — the docs explicitly
+      say do NOT branch on it.
+  - name: code
+    type: string
+    stable: true
+    description: Stable machine-readable identifier. This is the field to branch on.
+  - name: issues
+    type: array
+    optional: true
+    description: Present only on 400 schema failures (code invalid_request_body). Each entry carries
+      a path[] and message, plus code/expected/received for type violations.
+  scope: All /api/public/v1/* endpoints share this one envelope. The legacy unversioned endpoints
+    return bare 401/404 responses with no documented body schema.
+example_schema_violation:
+  error: Invalid request body
+  code: invalid_request_body
+  issues:
+  - code: invalid_type
+    expected: string
+    received: undefined
+    path:
+    - title
+    message: Required
+example_guide_violation:
+  error: "Invalid study guide: conditional references unknown item externalId 'q2'"
+  code: invalid_study_guide
+problems:
+- status: 400
+  code: invalid_json
+  title: Request body isn't valid JSON
+  remediation: Fix the JSON serialization of the request body.
+- status: 400
+  code: invalid_request_body
+  title: Body failed schema validation
+  remediation: Read the issues[] array for per-field path and message details and correct each
+    field.
+- status: 400
+  code: invalid_study_guide
+  title: The study guide broke a cross-field rule
+  scope: create only
+  remediation: Check the cross-field validation rules — screening block placement, minSelect and
+    maxSelect coupling, unique externalIds, reference resolution, exclusiveOption placement.
+  docs: https://docs.listenlabs.ai/api-v2/study-guide#validation-rules
+  source_operation: openapi/listen-labs-v2-openapi.yml#createStudy
+- status: 400
+  code: wallet_required
+  title: The organization has multiple wallets and walletId was omitted
+  scope: launch only
+  remediation: Call listWallets and pass an explicit walletId. It can only be omitted when the
+    organization has exactly one wallet.
+  source_operation: openapi/listen-labs-v2-openapi.yml#launchStudy
+- status: 400
+  code: insufficient_credits
+  title: The wallet can't fund the launch
+  scope: launch only
+  remediation: Insufficient balance or grant limit. Check balances via listWallets or top up.
+  source_operation: openapi/listen-labs-v2-openapi.yml#launchStudy
+- status: 400
+  code: bad_request
+  title: A query or path parameter is invalid
+  scope: response endpoints only
+  remediation: Validate linkId, responseId, page, per_page and updated_since before retrying.
+- status: 401
+  code: missing_api_key
+  title: No x-api-key header
+  remediation: Send the API key in the x-api-key header on every request.
+- status: 401
+  code: invalid_api_key
+  title: The API key is invalid
+  remediation: Regenerate the key from the Developer section of the account page.
+- status: 403
+  code: forbidden
+  title: The key's user isn't a member of the key's organization
+  remediation: Use a key issued for an organization the user belongs to.
+- status: 403
+  code: launch_permission_denied
+  title: The key's user lacks permission to launch this study
+  remediation: Ask an organization admin for launch/recruitment permission.
+  source_operation: openapi/listen-labs-v2-openapi.yml#launchStudy
+- status: 403
+  code: wallet_access_denied
+  title: No access to the specified wallet
+  remediation: Pass a wallet returned by listWallets for this organization.
+- status: 404
+  code: study_not_found
+  title: Study not found in the key's organization
+  remediation: Confirm the linkId/studyId and that the key is scoped to the right organization.
+- status: 404
+  code: response_not_found
+  title: Response not found in the study
+  scope: get response only
+  remediation: Confirm the responseId (UUID or readable ID) belongs to this study.
+  source_operation: openapi/listen-labs-v2-openapi.yml#getSingleResponse
+- status: 409
+  code: concurrent_modification
+  title: The draft was modified concurrently
+  scope: create only
+  retryable: true
+  remediation: Retry the request.
+  source_operation: openapi/listen-labs-v2-openapi.yml#createStudy
+- status: 409
+  code: study_busy
+  title: An update is in flight
+  scope: launch only
+  retryable: true
+  remediation: Retry after a moment.
+  source_operation: openapi/listen-labs-v2-openapi.yml#launchStudy
+- status: 409
+  code: conflict
+  title: The publish raced a concurrent edit
+  scope: launch only
+  retryable: true
+  remediation: Refresh the study state and retry.
+  source_operation: openapi/listen-labs-v2-openapi.yml#launchStudy
+- status: 500
+  code: internal_error
+  title: Internal error
+  remediation: Details are logged server-side and not returned. Retry with backoff, then contact
+    support@listenlabs.ai.
+legacy_responses:
+- status: 401
+  title: Missing or invalid credentials
+  source_operation: openapi/listen-labs-study-data-openapi.json#listStudies
+  note: The unversioned Study Data spec documents 401/404 as bare descriptions with no response
+    body schema.
+- status: 404
+  title: The requested resource was not found in the caller's organization
+  source_operation: openapi/listen-labs-study-data-openapi.json#getStudyQuestions
+related:
+- conventions/listen-labs-conventions.yml
+- lifecycle/listen-labs-lifecycle.yml

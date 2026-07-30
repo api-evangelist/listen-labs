@@ -1,0 +1,14 @@
+{
+  "provider": "listen-labs",
+  "sources": [
+    "listen-labs-public-api-openapi.yml"
+  ],
+  "outputs": [
+    "listen-labs-public-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

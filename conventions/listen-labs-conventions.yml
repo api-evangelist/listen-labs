@@ -1,0 +1,114 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.listenlabs.ai/api-v2/overview
+derived_from:
+- openapi/listen-labs-v2-openapi.yml
+- openapi/listen-labs-study-data-openapi.json
+base_url: https://listenlabs.ai
+authentication:
+  style: api-key-header
+  header: x-api-key
+  scope: Each API key is scoped to a single organization. Created by Admins and Supervisors from the
+    Developer section of the account page.
+  docs: https://docs.listenlabs.ai/get-api-access
+  agent_auth: The hosted MCP server uses OAuth 2.1 with dynamic client registration instead of the
+    API key — see mcp/listen-labs-mcp.yml.
+  artifact: authentication/listen-labs-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    No idempotency key header or parameter is documented, and neither OpenAPI declares an
+    Idempotency-Key parameter. Write operations instead surface concurrency conflicts as retryable
+    409 codes (concurrent_modification on create, study_busy and conflict on launch), which the
+    docs instruct callers to retry. Because there is no idempotency contract, no `Idempotency`
+    pointer is emitted for this provider.
+  conflict_codes:
+  - concurrent_modification
+  - study_busy
+  - conflict
+pagination:
+  style: page-number
+  applies_to:
+  - GET /api/public/v1/responses/{linkId}
+  - GET /api/public/responses/{link_id}
+  params:
+  - name: page
+    in: query
+    type: integer
+    default: 0
+    note: Zero-based page index.
+  - name: per_page
+    in: query
+    type: integer
+    default: 1000
+  incremental_sync:
+  - name: updated_since
+    in: query
+    type: string
+    format: date-time
+    description: ISO 8601 timestamp; returns only responses updated after this date. The documented
+      mechanism for incremental polling.
+  - name: include_in_progress
+    in: query
+    type: boolean
+    default: true
+    description: Whether to include responses whose analysis is still in progress.
+naming:
+  convention: mixed
+  detail: >-
+    The versioned /api/public/v1/responses/* endpoints return camelCase (linkId, answerId,
+    discussionGuideQuestionId, readableId, bulletSummary). The legacy unversioned response
+    endpoints return the same fields in snake_case. List Studies and Get Study Questions keep
+    snake_case and are not changing.
+  caution: MCP tool parameter casing also varies per tool (studyId vs study_id) — read each tool
+    schema before calling.
+versioning:
+  style: uri-path
+  current: /api/public/v1/
+  artifact: lifecycle/listen-labs-lifecycle.yml
+error_envelope:
+  shape: custom
+  fields:
+  - error
+  - code
+  - issues
+  branch_on: code
+  rfc9457: false
+  artifact: errors/listen-labs-problem-types.yml
+rate_limiting:
+  documented: false
+  headers: []
+  note: No rate limits or rate-limit response headers are documented in the public docs or either
+    OpenAPI. No RateLimits artifact is emitted.
+request_tracing:
+  documented: false
+  note: No request-id / correlation-id header is documented.
+metadata:
+  mechanism: url-parameters
+  description: >-
+    Arbitrary URL parameters appended to a study's self-recruit link are captured per response and
+    returned as the `urlParams` object (v1) / `attributes` object (legacy). This is the documented
+    way to carry your own identifiers through a study for joins with external systems.
+  docs: https://docs.listenlabs.ai/setup-to-launch/question-routing
+field_expansion:
+  supported: false
+  note: No expand/fields sparse-fieldset mechanism is documented. Detail is split across endpoints
+    instead — list responses returns answers, single response returns the full transcript.
+media:
+  signed_urls: true
+  audio_ttl: Signed audio URLs are valid for approximately 1 hour.
+  video: Transcript rows may carry a video object with an HLS streamUrl and a direct mp4Url.
+  note: Media URLs expire — re-fetch the response rather than caching the URL.
+credits:
+  model: wallet
+  description: >-
+    Launching a study spends real credits from an organization wallet. Wallets are listed with
+    recruitment and project credit balances via listWallets. walletId may be omitted at launch only
+    when the organization has exactly one wallet; otherwise a 400 wallet_required is returned.
+  caution: Launch is a spending, non-reversible action — agent integrations should gate it behind
+    explicit human confirmation.
+related:
+- authentication/listen-labs-authentication.yml
+- errors/listen-labs-problem-types.yml
+- lifecycle/listen-labs-lifecycle.yml
+- data-model/listen-labs-data-model.yml

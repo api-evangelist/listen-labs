@@ -1,0 +1,40 @@
+generated: '2026-07-19'
+method: searched
+source: npm, PyPI, docs.listenlabs.ai
+summary:
+  official_packages: 0
+  note: >-
+    Listen Labs publishes no first-party client SDK. The documentation demonstrates the API with
+    raw curl/HTTP calls against https://listenlabs.ai and directs agent consumers to the hosted MCP
+    server instead of a language SDK.
+packages: []
+unverified:
+- language: javascript
+  registry: npm
+  name: "@listenlabs/common"
+  url: https://www.npmjs.com/package/@listenlabs/common
+  official: false
+  reason: >-
+    Name-adjacent only. Published 2026-02-15 under an unaffiliated maintainer account with no
+    description, no repository, and no homepage; nothing links it to Listen Labs. Not treated as a
+    first-party SDK.
+registries_checked:
+- registry: npm
+  result: no first-party package
+- registry: pypi
+  result: 404 for listenlabs and listen-labs
+- registry: maven-central
+  result: not found
+- registry: nuget
+  result: not found
+- registry: pkg.go.dev
+  result: not found
+- registry: rubygems
+  result: not found
+- registry: packagist
+  result: not found
+- registry: crates.io
+  result: not found
+related:
+- mcp/listen-labs-mcp.yml
+- skills/_index.yml

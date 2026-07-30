@@ -1,0 +1,72 @@
+generated: '2026-07-19'
+method: searched
+source: https://trust.listenlabs.ai/, https://docs.listenlabs.ai/api-v2/overview
+derived_from:
+- openapi/listen-labs-v2-openapi.yml
+- openapi/listen-labs-study-data-openapi.json
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: Both published specs declare openapi 3.0.3.
+- id: oauth2
+  conforms: true
+  evidence: The hosted MCP server authenticates with OAuth 2.1 (authorization_code + refresh_token,
+    PKCE S256) per https://listenlabs.ai/.well-known/oauth-authorization-server. The REST API itself
+    uses an api-key header, not OAuth.
+  scope: mcp-only
+- id: oauth2-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported = [S256]
+- id: rfc8414-as-metadata
+  conforms: true
+  evidence: /.well-known/oauth-authorization-server returns 200 with issuer, authorization, token,
+    revocation and registration endpoints.
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint published and docs state "OAuth 2.1 with dynamic client
+    registration".
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: /.well-known/oauth-protected-resource/mcp returns 200 with resource and
+    authorization_servers.
+- id: model-context-protocol
+  conforms: true
+  evidence: Officially hosted remote MCP server at https://listenlabs.ai/mcp using stateless
+    Streamable HTTP; listed in the OpenAI App Store and the Claude connector directory.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404; no OIDC discovery document.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a custom {error, code, issues} JSON envelope, not application/problem+json.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on both the apex and www hosts.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: Deprecation is announced in the docs with a dated warning; no Sunset or Deprecation
+    response headers are documented.
+- id: json-api
+  conforms: false
+  evidence: Plain JSON resources; no JSON:API document structure.
+- id: idempotency-key
+  conforms: false
+  evidence: No idempotency key header or parameter documented or present in either spec.
+- id: pagination
+  conforms: true
+  evidence: page / per_page query parameters with documented defaults on the response endpoints,
+    plus updated_since for incremental sync.
+compliance_program:
+  published: true
+  url: https://trust.listenlabs.ai
+  certifications:
+  - SOC 2 Type II
+  - ISO 27001
+  - ISO 27701
+  - ISO 42001
+  - GDPR
+  artifact: security/listen-labs-trust-center.yml
+related:
+- security/listen-labs-trust-center.yml
+- well-known/listen-labs-well-known.yml
+- conventions/listen-labs-conventions.yml

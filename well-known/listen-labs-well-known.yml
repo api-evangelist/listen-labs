@@ -1,0 +1,48 @@
+generated: '2026-07-19'
+method: searched
+source: live probes of the Listen Labs base hosts
+hosts_probed:
+- https://listenlabs.ai
+- https://mcp.listenlabs.ai
+- https://www.listenlabs.ai
+documents:
+- host: https://listenlabs.ai
+  path: /.well-known/oauth-authorization-server
+  standard: RFC 8414 OAuth 2.0 Authorization Server Metadata
+  status: 200
+  file: listen-labs-oauth-authorization-server.json
+- host: https://listenlabs.ai
+  path: /.well-known/oauth-protected-resource/mcp
+  standard: RFC 9728 OAuth 2.0 Protected Resource Metadata
+  status: 200
+  file: listen-labs-oauth-protected-resource-mcp.json
+- host: https://mcp.listenlabs.ai
+  path: /.well-known/oauth-authorization-server
+  standard: RFC 8414 OAuth 2.0 Authorization Server Metadata
+  status: 200
+  note: identical document to the apex host; mcp.listenlabs.ai is the declared issuer
+- host: https://listenlabs.ai
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://listenlabs.ai
+  path: /.well-known/oauth-protected-resource
+  status: 404
+  note: served only under the /mcp resource path
+- host: https://listenlabs.ai
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://listenlabs.ai
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://listenlabs.ai
+  path: /.well-known/security.txt
+  status: 404
+- host: https://www.listenlabs.ai
+  path: /.well-known/security.txt
+  status: 404
+summary:
+  found: 3
+  missing: 6
+  oauth_discovery: true
+  security_txt: false
+  api_catalog: false

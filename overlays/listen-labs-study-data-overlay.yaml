@@ -1,0 +1,74 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Listen Labs Public API — Study Data
+  version: 1.0.0
+extends: openapi/listen-labs-study-data-openapi.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: listen-labs
+    x-apievangelist-generated: '2026-07-19'
+    x-apievangelist-method: generated
+    x-apievangelist-artifacts:
+      conventions: conventions/listen-labs-conventions.yml
+      errors: errors/listen-labs-problem-types.yml
+      lifecycle: lifecycle/listen-labs-lifecycle.yml
+      data_model: data-model/listen-labs-data-model.yml
+      authentication: authentication/listen-labs-authentication.yml
+      mcp: mcp/listen-labs-mcp.yml
+- target: $
+  update:
+    tags:
+    - name: Studies
+      description: List the studies in the API key's organization.
+    - name: Responses
+      description: Retrieve participant responses, answers, and full interview transcripts.
+    - name: Questions
+      description: Retrieve a study's discussion-guide question definitions.
+- target: $.paths['/api/public/list_surveys'].get
+  update:
+    tags:
+    - Studies
+    x-apievangelist-notes: Returns link_id, the slug used as the path parameter by the responses and
+      questions endpoints. link_id is editable in study settings — key permanent records on id.
+- target: $.paths['/api/public/responses/{link_id}'].get
+  update:
+    tags:
+    - Responses
+    x-apievangelist-deprecation:
+      deprecated_from: '2026-08-01'
+      replacement: GET /api/public/v1/responses/{linkId}
+      note: Announced in the docs; the versioned replacement returns the same fields in camelCase.
+    x-apievangelist-pagination:
+      style: page-number
+      params:
+      - page
+      - per_page
+      incremental: updated_since
+- target: $.paths['/api/public/responses/{link_id}/{response_id}'].get
+  update:
+    tags:
+    - Responses
+    x-apievangelist-deprecation:
+      deprecated_from: '2026-08-01'
+      replacement: GET /api/public/v1/responses/{linkId}/{responseId}
+- target: $.paths['/api/public/studies/{study_id}/questions'].get
+  update:
+    tags:
+    - Questions
+    x-apievangelist-notes: study_id takes the study's link_id value, not its uuid.
+- target: $.components.schemas.TranscriptRow.properties.audio
+  update:
+    x-apievangelist-expiry: Signed URL valid approximately 1 hour — re-fetch rather than caching.
+- target: $.components.responses.Unauthorized
+  update:
+    x-apievangelist-error-codes:
+    - missing_api_key
+    - invalid_api_key
+    x-apievangelist-catalog: errors/listen-labs-problem-types.yml
+- target: $.components.responses.NotFound
+  update:
+    x-apievangelist-error-codes:
+    - study_not_found
+    - response_not_found
+    x-apievangelist-catalog: errors/listen-labs-problem-types.yml

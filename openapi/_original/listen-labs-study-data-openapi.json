@@ -1,0 +1,486 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Listen Labs Public API — Study Data",
+    "version": "1.0.0",
+    "description": "Retrieve studies, responses, transcripts, and questions from Listen Labs. Authenticate with an `x-api-key` header (contact support@listenlabs.ai to request a key). Each API key is scoped to a single organization.\n\nEndpoints for creating and launching studies are described in a separate spec: https://docs.listenlabs.ai/api-v2/openapi.yaml\n\nFull documentation: https://docs.listenlabs.ai"
+  },
+  "servers": [
+    {
+      "url": "https://listenlabs.ai",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    { "ApiKeyAuth": [] }
+  ],
+  "paths": {
+    "/api/public/list_surveys": {
+      "get": {
+        "operationId": "listStudies",
+        "summary": "List Studies",
+        "description": "Lists all studies in the API key's organization.",
+        "responses": {
+          "200": {
+            "description": "A list of studies.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Study" }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/api/public/responses/{link_id}": {
+      "get": {
+        "operationId": "getResponses",
+        "summary": "Get Responses",
+        "description": "Lists all responses for a given study.",
+        "parameters": [
+          {
+            "name": "link_id",
+            "in": "path",
+            "required": true,
+            "description": "The link ID of the study. You can find this in the study URL (e.g. in `https://listenlabs.ai/s/abc123` the link ID is `abc123`) or via the List Studies endpoint.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number for pagination.",
+            "schema": { "type": "integer", "default": 0 }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Number of responses to return per page.",
+            "schema": { "type": "integer", "default": 1000 }
+          },
+          {
+            "name": "updated_since",
+            "in": "query",
+            "description": "ISO 8601 date string to filter responses updated after this date (e.g. `2023-08-18T11:51:54.649916Z`).",
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "include_in_progress",
+            "in": "query",
+            "description": "Whether to include responses whose analysis is still in progress.",
+            "schema": { "type": "boolean", "default": true }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of responses for the given study.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/ResponseSummary" }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/public/responses/{link_id}/{response_id}": {
+      "get": {
+        "operationId": "getSingleResponse",
+        "summary": "Get Single Response",
+        "description": "Retrieves a single response for a specific study, including the full interview transcript with audio/video links where available.",
+        "parameters": [
+          {
+            "name": "link_id",
+            "in": "path",
+            "required": true,
+            "description": "The link ID of the study.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "response_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the specific response to retrieve.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The response with its full transcript.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResponseDetail" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/public/studies/{study_id}/questions": {
+      "get": {
+        "operationId": "getStudyQuestions",
+        "summary": "Get Study Questions",
+        "description": "Retrieves all questions for a specific study, from the study's latest revision.",
+        "parameters": [
+          {
+            "name": "study_id",
+            "in": "path",
+            "required": true,
+            "description": "The link ID of the study to retrieve questions for. You can find it in the study URL or via the List Studies endpoint.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The study's questions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "questions": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Question" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API key scoped to a single organization. Contact support@listenlabs.ai to request one."
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Missing or invalid credentials."
+      },
+      "NotFound": {
+        "description": "The requested resource was not found in the caller's organization."
+      }
+    },
+    "schemas": {
+      "Study": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Permanent unique identifier for the study."
+          },
+          "link_id": {
+            "type": "string",
+            "description": "The link ID of the study. Editable in study settings, so it might change."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the study."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "UTC timestamp of when the study was created."
+          },
+          "desc": {
+            "type": "string",
+            "description": "A description of the study, e.g. \"My study (10 Responses)\"."
+          }
+        }
+      },
+      "ResponseSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the response."
+          },
+          "response_number": {
+            "type": "number",
+            "description": "The ordered number of the response."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "UTC timestamp of when the response was created."
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "UTC timestamp of when the response was last updated (uses the analysis completion time when available)."
+          },
+          "progress": {
+            "type": "string",
+            "description": "The completion progress of the response (e.g. \"complete\", \"in_progress\")."
+          },
+          "response_duration_seconds": {
+            "type": "number",
+            "description": "The total duration of the response in seconds."
+          },
+          "answers": {
+            "type": "object",
+            "description": "Answers to all questions of the study, keyed by question text. Includes a \"Summary\" key with a summary of the entire conversation.",
+            "additionalProperties": { "type": "string" }
+          },
+          "answers_array": {
+            "type": "array",
+            "description": "Answers to all questions of the study as an array.",
+            "items": { "$ref": "#/components/schemas/Answer" }
+          },
+          "attributes": {
+            "type": "object",
+            "description": "URL parameters that were passed to the study, e.g. `id` from `https://listenlabs.ai/s/abc123?id=123`.",
+            "additionalProperties": { "type": "string" }
+          },
+          "short_transcript": {
+            "type": "string",
+            "nullable": true,
+            "description": "A transcript of the entire conversation where the assistant messages are shortened to a couple of words. Null if the transcript has not been generated yet."
+          },
+          "short_assistant_messages": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Condensed assistant turns used to build compact transcript context."
+          },
+          "bullet_summary": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Concise bullet-point summary of the response."
+          },
+          "quality_score": {
+            "type": "number",
+            "description": "Numeric response quality score, typically on a 1-5 scale."
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Extracted keyword labels for the response."
+          },
+          "tagline": {
+            "type": "string",
+            "description": "Short one-line synthesis for the response."
+          },
+          "summary": {
+            "type": "string",
+            "description": "A natural-language summary of the response. May be omitted when a summary has not yet been generated."
+          }
+        }
+      },
+      "Answer": {
+        "type": "object",
+        "properties": {
+          "answer_id": {
+            "type": "string",
+            "description": "The answer ID. Matches the `answer_id` on transcript rows from the single response endpoint, enabling cross-referencing."
+          },
+          "discussion_guide_question_id": {
+            "type": "string",
+            "description": "The discussion guide question ID. Matches the `id` field from the Get Study Questions endpoint, enabling you to join answers with their question definitions."
+          },
+          "concept_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The concept ID. Null if not concept-specific."
+          },
+          "question_id": {
+            "type": "string",
+            "deprecated": true,
+            "description": "Deprecated. Use `answer_id` instead."
+          },
+          "question": {
+            "type": "string",
+            "description": "The question text, prefixed with its number when available (e.g. \"Q1: What is your age?\")."
+          },
+          "answer": {
+            "type": "string",
+            "description": "The answer to the question."
+          }
+        }
+      },
+      "ResponseDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the response."
+          },
+          "survey": {
+            "type": "string",
+            "description": "The link ID of the survey this response belongs to."
+          },
+          "transcript": {
+            "type": "array",
+            "description": "A complete transcript of the conversation.",
+            "items": { "$ref": "#/components/schemas/TranscriptRow" }
+          }
+        }
+      },
+      "TranscriptRow": {
+        "type": "object",
+        "properties": {
+          "moderator": {
+            "type": "string",
+            "description": "The message from the assistant/moderator."
+          },
+          "user": {
+            "type": "string",
+            "description": "The response from the user."
+          },
+          "discussion_guide_question_id": {
+            "type": "string",
+            "description": "The discussion guide question ID for this row. Matches the `id` field from the Get Study Questions endpoint."
+          },
+          "concept_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The concept ID for this row. Null if the question isn't concept-specific."
+          },
+          "answer_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The answer ID for this question. Matches the `answer_id` in the list endpoint's `answers_array`. Null for non-question rows (e.g. intro messages)."
+          },
+          "response_index": {
+            "type": "number",
+            "description": "The zero-based index of this row in the conversation history."
+          },
+          "is_followup": {
+            "type": "boolean",
+            "description": "Whether this row is a follow-up to the same question as the previous row."
+          },
+          "audio": {
+            "type": "string",
+            "nullable": true,
+            "description": "A signed URL to the audio recording of the user's response, if available. Valid for 1 hour. Null if no audio recording exists."
+          },
+          "video": {
+            "type": "object",
+            "nullable": true,
+            "description": "Video playback information, if available. Null if no video recording exists.",
+            "properties": {
+              "stream_url": {
+                "type": "string",
+                "description": "HLS stream URL for the video recording."
+              },
+              "mp4_url": {
+                "type": "string",
+                "description": "Direct MP4 download URL for the video recording."
+              }
+            }
+          },
+          "question_uuid": {
+            "type": "string",
+            "deprecated": true,
+            "description": "Deprecated. Use `discussion_guide_question_id` instead."
+          }
+        }
+      },
+      "Question": {
+        "type": "object",
+        "required": ["id", "text", "is_screener", "type", "question_number"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the question. Matches the `discussion_guide_question_id` field in the response endpoints."
+          },
+          "text": {
+            "type": "string",
+            "description": "The question text shown to participants."
+          },
+          "is_screener": {
+            "type": "boolean",
+            "description": "Whether this question is part of the screening section."
+          },
+          "type": {
+            "type": "string",
+            "enum": ["open_ended", "multiple_choice", "ranking", "statement"],
+            "description": "The question type."
+          },
+          "question_number": {
+            "type": "number",
+            "description": "The human-readable question number for display purposes."
+          },
+          "concepts": {
+            "type": "array",
+            "description": "Concept objects attached to this question (empty if the question is not part of a concept test block).",
+            "items": { "$ref": "#/components/schemas/Concept" }
+          },
+          "is_multi_select": {
+            "type": "boolean",
+            "description": "Multiple choice only: whether the participant can select multiple options."
+          },
+          "options": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Multiple choice and ranking only: the list of answer options or items to rank."
+          }
+        }
+      },
+      "Concept": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the concept."
+          },
+          "title": {
+            "type": "string",
+            "description": "The concept title."
+          },
+          "description": {
+            "type": "string",
+            "description": "The concept description."
+          },
+          "media": {
+            "type": "array",
+            "description": "Media attachments.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["image", "video"],
+                  "description": "The media type."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The file name of the media."
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The URL of the media file."
+                }
+              }
+            }
+          },
+          "embed_url": {
+            "type": "string",
+            "nullable": true,
+            "description": "An optional embed URL for the concept (e.g. a Figma or prototype link)."
+          }
+        }
+      }
+    }
+  }
+}

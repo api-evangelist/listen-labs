@@ -1,0 +1,1541 @@
+openapi: 3.0.3
+info:
+  title: Listen Labs Public API v2
+  version: 2.0.0
+  description: >-
+    Create and launch studies, and retrieve response data programmatically.
+    Authenticated with an `x-api-key` header; the key is scoped to a single
+    organization.
+
+
+    Cross-field rules that JSON Schema cannot express (screening placement,
+    min/maxSelect coupling, unique externalIds, reference resolution,
+    exclusiveOption placement) are described on the relevant schemas and
+    enforced by the server (returned as 400 responses).
+
+
+    All error responses share one JSON envelope: `error` (human-readable
+    message, may change) and `code` (stable machine-readable identifier; branch
+    on this). 400 responses may also carry `issues` with per-field schema
+    violations. The possible codes for each response are listed in its
+    description.
+servers:
+  - url: https://listenlabs.ai
+    description: Production
+security:
+  - ApiKeyAuth: []
+paths:
+  /api/public/v1/studies/create:
+    post:
+      operationId: createStudy
+      summary: Create a study (draft) from a guide
+      description: Validates the guide and creates a draft study in the API key's org.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStudyRequest'
+      responses:
+        '201':
+          description: Draft created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        '400':
+          description: >-
+            Invalid JSON, request body, or study guide. Codes: `invalid_json`,
+            `invalid_request_body`, `invalid_study_guide`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+              examples:
+                invalidJson:
+                  value:
+                    error: Invalid JSON body
+                    code: invalid_json
+                invalidRequestBody:
+                  value:
+                    error: Invalid request body
+                    code: invalid_request_body
+                    issues:
+                      - code: invalid_type
+                        expected: string
+                        received: undefined
+                        path:
+                          - title
+                        message: Required
+                invalidStudyGuide:
+                  value:
+                    error: >-
+                      Invalid study guide: conditional references unknown item
+                      externalId 'q2'
+                    code: invalid_study_guide
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          description: >-
+            The draft was modified concurrently; retry. Codes:
+            `concurrent_modification`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                concurrentModification:
+                  value:
+                    error: Study was modified concurrently; please retry
+                    code: concurrent_modification
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /api/public/v1/responses/{linkId}:
+    get:
+      operationId: listResponses
+      summary: List responses for a study
+      description: Paginated responses with answers and summaries.
+      parameters:
+        - name: linkId
+          in: path
+          required: true
+          description: The editable link ID used in the response URL.
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: perPage
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1000
+        - name: updatedSince
+          in: query
+          description: Only responses updated at or after this timestamp.
+          schema:
+            type: string
+            format: date-time
+        - name: includeInProgress
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponsesResponse'
+        '400':
+          description: 'One or more query parameters are invalid. Codes: `bad_request`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalidPage:
+                  value:
+                    error: page must be an integer of at least 0
+                    code: bad_request
+                invalidUpdatedSince:
+                  value:
+                    error: updatedSince must be an ISO 8601 timestamp
+                    code: bad_request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: >-
+            The study is not in the key's organization. Codes:
+            `study_not_found`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                studyNotFound:
+                  value:
+                    error: Study not found
+                    code: study_not_found
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /api/public/v1/responses/{linkId}/{responseId}:
+    get:
+      operationId: getSingleResponse
+      summary: Get one response by UUID or readable ID
+      description: Response transcript, URL parameters, and summaries.
+      parameters:
+        - name: linkId
+          in: path
+          required: true
+          description: The editable link ID used in the response URL.
+          schema:
+            type: string
+        - name: responseId
+          in: path
+          required: true
+          description: Response UUID or positive readable numeric ID.
+          schema:
+            oneOf:
+              - type: string
+                format: uuid
+              - type: string
+                pattern: ^[1-9][0-9]*$
+      responses:
+        '200':
+          description: Response details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSingleResponseResponse'
+        '400':
+          description: 'The response identifier is invalid. Codes: `bad_request`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalidResponseId:
+                  value:
+                    error: responseId must be a UUID or a positive readable ID
+                    code: bad_request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: >-
+            Study or response not found. Codes: `study_not_found`,
+            `response_not_found`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                studyNotFound:
+                  value:
+                    error: Study not found
+                    code: study_not_found
+                responseNotFound:
+                  value:
+                    error: Response not found
+                    code: response_not_found
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /api/public/v1/studies/{studyId}/launch:
+    post:
+      operationId: launchStudy
+      summary: Launch a draft and return the self-recruit link
+      description: >-
+        Publishes the draft and opens its self-recruit link. Requires the key's
+        user to have StartRecruitment on the study. Project responses bill to
+        the launch wallet: pass walletId, or omit the body to auto-select the
+        organization's wallet when it has exactly one.
+      parameters:
+        - name: studyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaunchRequest'
+      responses:
+        '200':
+          description: Launched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchResponse'
+        '400':
+          description: >-
+            Invalid body, the organization has multiple wallets and walletId was
+            omitted, or the wallet cannot fund the launch (insufficient balance
+            or grant limit). Codes: `invalid_json`, `invalid_request_body`,
+            `wallet_required`, `insufficient_credits`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+              examples:
+                invalidJson:
+                  value:
+                    error: Invalid JSON body
+                    code: invalid_json
+                invalidRequestBody:
+                  value:
+                    error: Invalid request body
+                    code: invalid_request_body
+                    issues:
+                      - code: invalid_type
+                        expected: string
+                        received: number
+                        path:
+                          - walletId
+                        message: Expected string, received number
+                walletRequired:
+                  value:
+                    error: >-
+                      Multiple wallets are available to this organization; pass
+                      walletId in the request body (see GET
+                      /api/public/v1/wallets)
+                    code: wallet_required
+                insufficientCredits:
+                  value:
+                    error: Insufficient balance
+                    code: insufficient_credits
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: >-
+            No permission to launch this study, or no access to the specified
+            wallet. Codes: `launch_permission_denied`, `wallet_access_denied`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                launchPermissionDenied:
+                  value:
+                    error: No permission to launch this study
+                    code: launch_permission_denied
+                walletAccessDenied:
+                  value:
+                    error: No access to the specified wallet
+                    code: wallet_access_denied
+        '404':
+          description: 'Study not found in the key''s org. Codes: `study_not_found`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                studyNotFound:
+                  value:
+                    error: Study not found
+                    code: study_not_found
+        '409':
+          description: >-
+            The study is busy (an update is in flight) or the publish raced a
+            concurrent edit. Codes: `study_busy`, `conflict`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                studyBusy:
+                  value:
+                    error: Study is currently being updated. Try again in a moment.
+                    code: study_busy
+                publishRace:
+                  value:
+                    error: >-
+                      Revision is no longer a dev revision. Please refresh and
+                      try again.
+                    code: conflict
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /api/public/v1/wallets:
+    get:
+      operationId: listWallets
+      summary: List the organization's wallets with balances
+      description: >-
+        Wallets granted to the API key's organization, each with recruitment and
+        project credit balances. Use a wallet's walletId when launching a study.
+      responses:
+        '200':
+          description: Wallets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+  responses:
+    Unauthorized:
+      description: 'Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            missingApiKey:
+              value:
+                error: Missing x-api-key header
+                code: missing_api_key
+            invalidApiKey:
+              value:
+                error: Invalid API key
+                code: invalid_api_key
+    Forbidden:
+      description: 'Key''s user not permitted for this resource. Codes: `forbidden`.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            forbidden:
+              value:
+                error: API key user is not a member of the key's organization
+                code: forbidden
+    ServerError:
+      description: >-
+        Internal error (details are logged server-side, not returned). Codes:
+        `internal_error`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              value:
+                error: Internal server error
+                code: internal_error
+  schemas:
+    Config:
+      type: object
+      properties:
+        interviewMode:
+          type: string
+          enum:
+            - text
+            - audio
+            - audio_text
+            - audio_screen
+            - video
+            - video_screen
+        questionLanguage:
+          type: string
+          enum:
+            - en
+            - en-medical
+            - fr
+            - de
+            - de-CH
+            - it
+            - pt
+            - es
+            - zh
+            - zh-TW
+            - zh-HK
+            - af
+            - sq
+            - am
+            - ar
+            - hy
+            - as
+            - ast
+            - az
+            - ba
+            - eu
+            - be
+            - bn
+            - bs
+            - br
+            - bg
+            - my
+            - ca
+            - ceb
+            - ny
+            - hr
+            - cs
+            - da
+            - nl
+            - et
+            - fo
+            - fi
+            - nl-BE
+            - ff
+            - gl
+            - lg
+            - ka
+            - el
+            - gu
+            - ht
+            - ha
+            - haw
+            - he
+            - hi
+            - hu
+            - is
+            - ig
+            - id
+            - ga
+            - ja
+            - jw
+            - kea
+            - kn
+            - kk
+            - km
+            - ko
+            - ku
+            - ky
+            - lo
+            - la
+            - lv
+            - ln
+            - lt
+            - luo
+            - lb
+            - mk
+            - mg
+            - ms
+            - ml
+            - mt
+            - mi
+            - mr
+            - mn
+            - ne
+            - nso
+            - 'no'
+            - nn
+            - oc
+            - or
+            - pa
+            - ps
+            - fa
+            - pl
+            - ro
+            - ru
+            - sa
+            - sr
+            - sn
+            - sd
+            - si
+            - sk
+            - sl
+            - so
+            - su
+            - sw
+            - sv
+            - tl
+            - tg
+            - ta
+            - tt
+            - te
+            - th
+            - bo
+            - tr
+            - tk
+            - uk
+            - umb
+            - ur
+            - uz
+            - vi
+            - cy
+            - wo
+            - xh
+            - yi
+            - yo
+            - zu
+          description: Language code the questions are written in (e.g. en, de).
+        availableLanguages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Config/properties/questionLanguage'
+          nullable: true
+          description: Translation target codes. null/omitted = English only.
+        targetPlatforms:
+          type: array
+          items:
+            type: string
+            enum:
+              - ios
+              - android
+              - desktop
+      additionalProperties: false
+    WelcomeMessage:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+      additionalProperties: false
+    Block:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this block. Auto-generated when omitted.
+            Unique within the payload.
+        type:
+          type: string
+          enum:
+            - flat
+            - concept
+            - screening
+        title:
+          type: string
+        conceptSamplingConfig:
+          allOf:
+            - $ref: '#/components/schemas/ConceptSamplingConfig'
+          nullable: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          minItems: 1
+      required:
+        - type
+        - title
+        - items
+      additionalProperties: false
+    ConceptSamplingConfig:
+      type: object
+      properties:
+        concepts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Concept'
+          minItems: 1
+        subsampleCount:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+          nullable: true
+          description: How many concepts each participant sees; null = all.
+      required:
+        - concepts
+      additionalProperties: false
+    Concept:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this concept. Auto-generated when omitted.
+            Unique within the payload.
+        nickname:
+          type: string
+          minLength: 1
+        content:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+              nullable: true
+            media:
+              type: array
+              items:
+                $ref: '#/components/schemas/ConceptMedia'
+            embed:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+              required:
+                - url
+              additionalProperties: false
+              nullable: true
+          required:
+            - title
+          additionalProperties: false
+        conditional:
+          allOf:
+            - $ref: '#/components/schemas/Conditional'
+          nullable: true
+          description: >-
+            Shows this concept only to participants matching the criteria, e.g.
+            gate each concept on a screener answer. selectedTemplateOptions
+            criteria must reference an item in a block before the concept block.
+      required:
+        - nickname
+        - content
+      additionalProperties: false
+    Item:
+      oneOf:
+        - $ref: '#/components/schemas/OpenEndedItem'
+        - $ref: '#/components/schemas/MultipleChoiceItem'
+        - $ref: '#/components/schemas/RankingItem'
+        - $ref: '#/components/schemas/MatrixItem'
+        - $ref: '#/components/schemas/MaxDiffItem'
+        - $ref: '#/components/schemas/StatementItem'
+      discriminator:
+        propertyName: type
+        mapping:
+          open_ended: '#/components/schemas/OpenEndedItem'
+          multiple_choice: '#/components/schemas/MultipleChoiceItem'
+          ranking: '#/components/schemas/RankingItem'
+          matrix: '#/components/schemas/MatrixItem'
+          max_diff: '#/components/schemas/MaxDiffItem'
+          statement: '#/components/schemas/StatementItem'
+    OpenEndedItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this item. Auto-generated when omitted; set it
+            only when a conditional (questionId) or carryForwardFrom references
+            it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+            - $ref: '#/components/schemas/Conditional'
+          nullable: true
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          nullable: true
+        embed:
+          allOf:
+            - $ref: '#/components/schemas/Embed'
+          nullable: true
+        type:
+          type: string
+          enum:
+            - open_ended
+        followUp:
+          type: string
+          enum:
+            - none
+            - light
+            - medium
+            - heavy
+          nullable: true
+        addInstructions:
+          type: string
+          nullable: true
+        preferredInput:
+          type: string
+          enum:
+            - text
+            - voice
+            - screenRecording
+            - none
+          nullable: true
+        screenObservationEnabled:
+          type: boolean
+          nullable: true
+          description: Only applies when preferredInput is screenRecording.
+      required:
+        - text
+        - type
+      additionalProperties: false
+    MultipleChoiceItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this item. Auto-generated when omitted; set it
+            only when a conditional (questionId) or carryForwardFrom references
+            it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+            - $ref: '#/components/schemas/Conditional'
+          nullable: true
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          nullable: true
+        embed:
+          allOf:
+            - $ref: '#/components/schemas/Embed'
+          nullable: true
+        type:
+          type: string
+          enum:
+            - multiple_choice
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+          minItems: 1
+          description: >-
+            Required unless carryForwardFrom is set; carry-forward questions
+            inherit the source's selected options.
+        multiSelect:
+          type: boolean
+          nullable: true
+        allowCustomOption:
+          type: boolean
+          nullable: true
+        minSelect:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+          nullable: true
+        maxSelect:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+          nullable: true
+        randomizeOptionOrder:
+          type: boolean
+          nullable: true
+        pinnedFinalOption:
+          type: boolean
+          nullable: true
+        carryForwardFrom:
+          type: string
+          nullable: true
+          description: >-
+            externalId of an earlier multi-select multiple_choice item; this
+            question shows only the options the participant selected there.
+      required:
+        - text
+        - type
+      additionalProperties: false
+      description: >-
+        minSelect/maxSelect must both be set or both null, only when multiSelect
+        is true, and minSelect must be <= maxSelect. exclusiveOption is only
+        valid on the final option of a multi-select.
+    RankingItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this item. Auto-generated when omitted; set it
+            only when a conditional (questionId) or carryForwardFrom references
+            it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+            - $ref: '#/components/schemas/Conditional'
+          nullable: true
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          nullable: true
+        embed:
+          allOf:
+            - $ref: '#/components/schemas/Embed'
+          nullable: true
+        type:
+          type: string
+          enum:
+            - ranking
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+          minItems: 1
+          description: >-
+            Required unless carryForwardFrom is set; carry-forward questions
+            rank the source's selected options.
+        randomizeOptionOrder:
+          type: boolean
+          nullable: true
+        carryForwardFrom:
+          type: string
+          nullable: true
+          description: >-
+            externalId of an earlier multi-select multiple_choice item; this
+            question ranks only the options the participant selected there.
+      required:
+        - text
+        - type
+      additionalProperties: false
+    MatrixItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this item. Auto-generated when omitted; set it
+            only when a conditional (questionId) or carryForwardFrom references
+            it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+            - $ref: '#/components/schemas/Conditional'
+          nullable: true
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          nullable: true
+        embed:
+          allOf:
+            - $ref: '#/components/schemas/Embed'
+          nullable: true
+        type:
+          type: string
+          enum:
+            - matrix
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+          minItems: 1
+          description: The columns each row is single-select across.
+        rows:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                minLength: 1
+            required:
+              - text
+            additionalProperties: false
+          minItems: 1
+      required:
+        - text
+        - type
+        - options
+        - rows
+      additionalProperties: false
+    MaxDiffItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this item. Auto-generated when omitted; set it
+            only when a conditional (questionId) or carryForwardFrom references
+            it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+            - $ref: '#/components/schemas/Conditional'
+          nullable: true
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          nullable: true
+        embed:
+          allOf:
+            - $ref: '#/components/schemas/Embed'
+          nullable: true
+        type:
+          type: string
+          enum:
+            - max_diff
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+          minItems: 2
+          description: The items being compared.
+        metric:
+          type: string
+          nullable: true
+        itemsPerScreen:
+          anyOf:
+            - type: number
+              enum:
+                - 3
+            - type: number
+              enum:
+                - 4
+            - type: number
+              enum:
+                - 5
+          nullable: true
+      required:
+        - text
+        - type
+        - options
+      additionalProperties: false
+    StatementItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Stable identifier for this item. Auto-generated when omitted; set it
+            only when a conditional (questionId) or carryForwardFrom references
+            it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+            - $ref: '#/components/schemas/Conditional'
+          nullable: true
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          nullable: true
+        embed:
+          allOf:
+            - $ref: '#/components/schemas/Embed'
+          nullable: true
+        type:
+          type: string
+          enum:
+            - statement
+        continueButtonText:
+          type: string
+      required:
+        - text
+        - type
+      additionalProperties: false
+    Option:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: >-
+            Optional handle so a conditional can reference this option by id.
+            Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          enum:
+            - approve
+            - reject
+            - neutral
+          nullable: true
+          default: null
+          description: Required inside screening blocks, null elsewhere.
+        exclusiveOption:
+          type: boolean
+          description: >-
+            Only valid on the final option of a multi-select multiple_choice
+            question; selecting it clears and locks the other options.
+      required:
+        - text
+      additionalProperties: false
+    Media:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        type:
+          type: string
+          enum:
+            - image
+            - video
+        widthPercentage:
+          type: number
+        forceWatching:
+          type: boolean
+      required:
+        - name
+        - url
+        - type
+      additionalProperties: false
+    ConceptMedia:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/Media/properties/name'
+        url:
+          $ref: '#/components/schemas/Media/properties/url'
+        type:
+          $ref: '#/components/schemas/Media/properties/type'
+        widthPercentage:
+          $ref: '#/components/schemas/Media/properties/widthPercentage'
+      required:
+        - name
+        - url
+        - type
+      additionalProperties: false
+    Embed:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+        proxyUrl:
+          type: string
+          format: uri
+      required:
+        - url
+      additionalProperties: false
+    Conditional:
+      type: object
+      properties:
+        operator:
+          type: string
+          enum:
+            - and
+            - or
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/Criterion'
+          minItems: 1
+      required:
+        - operator
+        - criteria
+      additionalProperties: false
+    Criterion:
+      oneOf:
+        - $ref: '#/components/schemas/SelectedTemplateOptionsCriterion'
+        - $ref: '#/components/schemas/SearchParamCriterion'
+      discriminator:
+        propertyName: type
+        mapping:
+          selectedTemplateOptions: '#/components/schemas/SelectedTemplateOptionsCriterion'
+          searchParam: '#/components/schemas/SearchParamCriterion'
+    SelectedTemplateOptionsCriterion:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - selectedTemplateOptions
+        questionId:
+          type: string
+          minLength: 1
+          description: externalId of an earlier multiple_choice or matrix item.
+        matchingCriteria:
+          type: string
+          enum:
+            - mustSelect
+            - mustNotSelect
+        choices:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          description: >-
+            Option externalIds (falls back to option text). Columns for a matrix
+            source.
+        matrixRow:
+          type: string
+          nullable: true
+          description: Required only for a matrix source; the exact row text.
+      required:
+        - type
+        - questionId
+        - matchingCriteria
+        - choices
+      additionalProperties: false
+    SearchParamCriterion:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - searchParam
+        parameter:
+          type: string
+          minLength: 1
+        value:
+          type: string
+      required:
+        - type
+        - parameter
+        - value
+      additionalProperties: false
+    CreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        linkId:
+          type: string
+        status:
+          type: string
+          enum:
+            - draft
+      required:
+        - id
+        - linkId
+        - status
+      additionalProperties: false
+    GetSingleResponseResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        readableId:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+        linkId:
+          type: string
+        urlParams:
+          type: object
+          additionalProperties:
+            type: string
+          description: Visible URL parameters.
+        tagline:
+          type: string
+          nullable: true
+          description: Generated tagline.
+        bulletSummary:
+          type: array
+          items:
+            type: string
+          description: Generated summary bullets.
+        transcript:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleResponseTranscriptItem'
+      additionalProperties: false
+    SingleResponseTranscriptItem:
+      type: object
+      properties:
+        moderator:
+          type: string
+        user:
+          type: string
+        audio:
+          type: string
+          format: uri
+          nullable: true
+          description: One-hour signed audio URL.
+        video:
+          allOf:
+            - $ref: '#/components/schemas/SingleResponseVideo'
+          nullable: true
+        responseIndex:
+          type: integer
+          minimum: 0
+        discussionGuideQuestionId:
+          type: string
+          nullable: true
+        conceptId:
+          type: string
+          nullable: true
+        isFollowUp:
+          type: boolean
+        answerId:
+          type: string
+          format: uuid
+          nullable: true
+      additionalProperties: false
+    SingleResponseVideo:
+      type: object
+      properties:
+        streamUrl:
+          type: string
+          format: uri
+        mp4Url:
+          type: string
+          format: uri
+      additionalProperties: false
+    ListResponseAnswer:
+      type: object
+      properties:
+        answerId:
+          type: string
+          format: uuid
+        discussionGuideQuestionId:
+          type: string
+          nullable: true
+        conceptId:
+          type: string
+          nullable: true
+        question:
+          type: string
+        answer:
+          type: string
+      additionalProperties: false
+    ListResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        readableId:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        progress:
+          type: string
+          enum:
+            - complete
+            - screened_out
+            - in_progress
+        responseDurationSeconds:
+          type: integer
+          minimum: 0
+        answers:
+          type: object
+          additionalProperties:
+            type: string
+        answersArray:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListResponseAnswer'
+        urlParams:
+          type: object
+          additionalProperties:
+            type: string
+        shortTranscript:
+          type: string
+          nullable: true
+        tagline:
+          type: string
+          nullable: true
+        bulletSummary:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        shortAssistantMessages:
+          type: array
+          items:
+            type: string
+        qualityScore:
+          anyOf:
+            - type: number
+            - type: string
+        otherRemarks:
+          type: string
+        personas:
+          type: string
+      additionalProperties: false
+    ListResponsesResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ListResponse'
+    LaunchRequest:
+      type: object
+      properties:
+        walletId:
+          type: string
+          format: uuid
+          description: >-
+            Wallet to bill this study from; must be granted to the API key's
+            organization (see GET /api/public/v1/wallets). Omit to auto-select
+            the organization's wallet when it has exactly one.
+      additionalProperties: false
+      description: Optional body; omit it entirely to auto-select the wallet.
+    LaunchResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        linkId:
+          type: string
+        selfRecruitLink:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum:
+            - live
+        wallet:
+          allOf:
+            - $ref: '#/components/schemas/Wallet'
+          description: >-
+            The wallet this launch is billed to. Omitted when no wallet is bound
+            (organization without wallet billing).
+      required:
+        - id
+        - linkId
+        - selfRecruitLink
+        - status
+      additionalProperties: false
+    Wallet:
+      type: object
+      properties:
+        walletId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        recruitmentCreditBalance:
+          $ref: '#/components/schemas/CreditBalance'
+        projectCreditBalance:
+          $ref: '#/components/schemas/CreditBalance'
+      required:
+        - walletId
+        - name
+        - recruitmentCreditBalance
+        - projectCreditBalance
+      additionalProperties: false
+    CreditBalance:
+      type: object
+      properties:
+        balance:
+          type: number
+          description: Credits currently available to spend.
+        usage:
+          type: number
+          description: Credits already used by this organization, including active holds.
+      required:
+        - balance
+        - usage
+      additionalProperties: false
+    WalletsResponse:
+      type: object
+      properties:
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Wallet'
+      required:
+        - wallets
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the failure.
+        code:
+          type: string
+          enum:
+            - invalid_json
+            - invalid_request_body
+            - invalid_study_guide
+            - wallet_required
+            - insufficient_credits
+            - bad_request
+            - missing_api_key
+            - invalid_api_key
+            - unauthorized
+            - launch_permission_denied
+            - wallet_access_denied
+            - forbidden
+            - study_not_found
+            - response_not_found
+            - not_found
+            - study_busy
+            - concurrent_modification
+            - conflict
+            - internal_error
+          description: >-
+            Stable machine-readable error code. Branch on this, not on the
+            `error` text, which may change.
+      required:
+        - error
+        - code
+      additionalProperties: false
+    ValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the failure.
+        code:
+          type: string
+          enum:
+            - invalid_json
+            - invalid_request_body
+            - invalid_study_guide
+            - wallet_required
+            - insufficient_credits
+            - bad_request
+            - missing_api_key
+            - invalid_api_key
+            - unauthorized
+            - launch_permission_denied
+            - wallet_access_denied
+            - forbidden
+            - study_not_found
+            - response_not_found
+            - not_found
+            - study_busy
+            - concurrent_modification
+            - conflict
+            - internal_error
+          description: >-
+            Stable machine-readable error code. Branch on this, not on the
+            `error` text, which may change.
+        issues:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: >-
+            Present when code is `invalid_request_body`: the schema violations
+            (Zod issues), each with a `path` and `message`.
+      required:
+        - error
+        - code
+      additionalProperties: false
+    CreateStudyRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        externalTitle:
+          type: string
+        background:
+          type: string
+        studyGoal:
+          type: string
+        config:
+          $ref: '#/components/schemas/Config'
+        welcomeMessage:
+          $ref: '#/components/schemas/WelcomeMessage'
+        closingMessage:
+          type: string
+        studyGuide:
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+          minItems: 1
+      required:
+        - title
+        - studyGuide
+      additionalProperties: false
+      description: >-
+        Rules enforced by the server: at most one screening block and it must be
+        first; screening blocks may contain only multiple_choice items and every
+        option must carry a status; concept blocks require conceptSamplingConfig
+        (>=1 concept) and other blocks must omit it; externalIds must be unique
+        across blocks, items, options, and concepts; conditional questionId and
+        carryForwardFrom must reference the externalId of an earlier item;
+        concept conditionals must reference an item in a block before the
+        concept block.

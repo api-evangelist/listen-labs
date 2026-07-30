@@ -1,0 +1,82 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Listen Labs Public API v2
+  version: 1.0.0
+extends: openapi/listen-labs-v2-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: listen-labs
+    x-apievangelist-generated: '2026-07-19'
+    x-apievangelist-method: generated
+    x-apievangelist-version-note: Titled "v2" but served under the /api/public/v1/ URI prefix — the
+      generation number and the path version differ.
+    x-apievangelist-artifacts:
+      conventions: conventions/listen-labs-conventions.yml
+      errors: errors/listen-labs-problem-types.yml
+      lifecycle: lifecycle/listen-labs-lifecycle.yml
+      data_model: data-model/listen-labs-data-model.yml
+      authentication: authentication/listen-labs-authentication.yml
+      mcp: mcp/listen-labs-mcp.yml
+      skills: skills/_index.yml
+- target: $
+  update:
+    tags:
+    - name: Studies
+      description: Create and launch studies from a JSON study guide.
+    - name: Responses
+      description: Retrieve participant responses and full interview transcripts.
+    - name: Wallets
+      description: List organization credit wallets that fund study launches.
+- target: $.paths['/api/public/v1/studies/create'].post
+  update:
+    tags:
+    - Studies
+    x-apievangelist-notes: Creates a DRAFT only — nothing is visible to participants and no credits
+      are spent until launch. Cross-field study-guide rules are enforced server-side and returned as
+      400 invalid_study_guide.
+    x-apievangelist-retryable-conflicts:
+    - concurrent_modification
+- target: $.paths['/api/public/v1/studies/{studyId}/launch'].post
+  update:
+    tags:
+    - Studies
+    x-apievangelist-consequence: spending
+    x-apievangelist-notes: Launch publishes the draft, opens recruitment, and bills project
+      responses to the launch wallet. This is a real-money, non-reversible action — agent
+      integrations should gate it behind explicit human confirmation.
+    x-apievangelist-wallet-rule: walletId may be omitted only when the organization has exactly one
+      wallet; otherwise 400 wallet_required.
+    x-apievangelist-retryable-conflicts:
+    - study_busy
+    - conflict
+- target: $.paths['/api/public/v1/wallets'].get
+  update:
+    tags:
+    - Wallets
+    x-apievangelist-notes: Call before launch to select a walletId and confirm sufficient credit.
+- target: $.paths['/api/public/v1/responses/{linkId}'].get
+  update:
+    tags:
+    - Responses
+    x-apievangelist-pagination:
+      style: page-number
+      params:
+      - page
+      - per_page
+      incremental: updated_since
+    x-apievangelist-replaces: GET /api/public/responses/{link_id} (deprecated 2026-08-01)
+- target: $.paths['/api/public/v1/responses/{linkId}/{responseId}'].get
+  update:
+    tags:
+    - Responses
+    x-apievangelist-notes: responseId accepts either the response UUID or its readable ID from the
+      list endpoint.
+    x-apievangelist-replaces: GET /api/public/responses/{link_id}/{response_id} (deprecated
+      2026-08-01)
+- target: $.components.schemas.Error
+  update:
+    x-apievangelist-branch-on: code
+    x-apievangelist-note: The `error` message string is explicitly documented as unstable — never
+      branch on it.
+    x-apievangelist-catalog: errors/listen-labs-problem-types.yml

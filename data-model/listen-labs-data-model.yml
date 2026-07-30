@@ -1,0 +1,220 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.listenlabs.ai/data-map
+derived_from:
+- openapi/listen-labs-study-data-openapi.json
+- openapi/listen-labs-v2-openapi.yml
+note: >-
+  Listen Labs publishes an explicit Data Map documenting the join keys between public API entities,
+  so this graph is captured from the provider rather than inferred. Field names below follow the
+  versioned camelCase endpoints; the legacy unversioned response endpoints return snake_case
+  equivalents.
+entities:
+- name: Study
+  description: A research study. The unit that gets created, launched, and analyzed.
+  returned_by: listStudies (GET /api/public/list_surveys)
+  identifiers:
+  - field: id
+    type: uuid
+    description: Stable, permanent study identifier.
+  - field: linkId
+    type: string
+    description: URL slug used as the path param for responses and questions. Editable in study
+      settings, so it can change — do not use it as a permanent key.
+  fields:
+  - title
+  - desc
+  - created_at
+  relationships:
+  - type: has_many
+    target: Response
+    via: linkId
+  - type: has_many
+    target: Question
+    via: study_id
+    note: study_id takes the link_id value.
+- name: Response
+  description: One participant's completed or in-progress interview, with extracted answers and
+    generated summaries.
+  returned_by: listResponses (GET /api/public/v1/responses/{linkId})
+  identifiers:
+  - field: id
+    type: uuid
+  - field: readableId
+    type: number
+    description: Order within the study. Accepted by getSingleResponse alongside the UUID.
+  fields:
+  - progress
+  - responseDurationSeconds
+  - qualityScore
+  - answers
+  - answersArray
+  - urlParams
+  - tags
+  - tagline
+  - bulletSummary
+  - shortTranscript
+  - createdAt
+  - updatedAt
+  enums:
+    progress:
+    - complete
+    - screened_out
+    - in_progress
+  relationships:
+  - type: belongs_to
+    target: Study
+    via: linkId
+  - type: has_many
+    target: Answer
+    via: answersArray
+  - type: has_many
+    target: TranscriptRow
+    via: transcript
+    note: Transcript rows come from getSingleResponse, not the list endpoint.
+- name: Answer
+  description: One extracted answer to one discussion-guide question, nested in
+    Response.answersArray.
+  identifiers:
+  - field: answerId
+    type: string
+    description: Join key — matches TranscriptRow.answerId.
+  fields:
+  - question
+  - answer
+  relationships:
+  - type: belongs_to
+    target: Question
+    via: discussionGuideQuestionId
+  - type: belongs_to
+    target: Concept
+    via: conceptId
+    optional: true
+  - type: has_many
+    target: TranscriptRow
+    via: answerId
+    note: One answer can span multiple transcript rows when follow-ups occur (isFollowUp true).
+- name: TranscriptRow
+  description: One moderator/participant exchange in the interview, optionally with recorded audio
+    and video.
+  returned_by: getSingleResponse (GET /api/public/v1/responses/{linkId}/{responseId})
+  fields:
+  - moderator
+  - user
+  - responseIndex
+  - isFollowUp
+  - audio
+  - video
+  media:
+    audio: Signed URL, valid roughly 1 hour. Null when no audio exists.
+    video: Object with streamUrl (HLS) and mp4Url. Null when no video exists.
+  relationships:
+  - type: belongs_to
+    target: Response
+  - type: belongs_to
+    target: Question
+    via: discussionGuideQuestionId
+  - type: belongs_to
+    target: Answer
+    via: answerId
+    optional: true
+    note: Null for non-question rows such as intro messages.
+  - type: belongs_to
+    target: Concept
+    via: conceptId
+    optional: true
+- name: Question
+  description: A discussion-guide question definition from the study's latest revision.
+  returned_by: getStudyQuestions (GET /api/public/studies/{study_id}/questions)
+  identifiers:
+  - field: id
+    type: string
+    description: Join key — referenced as discussionGuideQuestionId on answers and transcript rows.
+  fields:
+  - text
+  - type
+  - question_number
+  - is_screener
+  - options
+  - is_multi_select
+  enums:
+    type:
+    - open_ended
+    - multiple_choice
+    - ranking
+    - statement
+  relationships:
+  - type: belongs_to
+    target: Study
+  - type: has_many
+    target: Concept
+    via: concepts
+    note: Empty array when the question is not part of a concept-test block.
+  - type: has_many
+    target: Answer
+    via: discussionGuideQuestionId
+- name: Concept
+  description: A creative, message, or prototype being compared in a concept-testing block.
+  identifiers:
+  - field: id
+    type: string
+  fields:
+  - title
+  - description
+  - media
+  - embed_url
+  relationships:
+  - type: belongs_to
+    target: Question
+  - type: has_many
+    target: Answer
+    via: conceptId
+- name: Wallet
+  description: A credit wallet granted to the organization; funds study launches.
+  returned_by: listWallets (GET /api/public/v1/wallets)
+  fields:
+  - creditBalance
+  relationships:
+  - type: has_many
+    target: Study
+    via: walletId
+    note: Set at launch. Required when the organization has more than one wallet.
+join_keys:
+- from: Study
+  to: Response
+  field: linkId
+- from: Study
+  to: Question
+  field: study_id
+- from: Question
+  to: Answer
+  field: discussionGuideQuestionId
+- from: Question
+  to: TranscriptRow
+  field: discussionGuideQuestionId
+- from: Answer
+  to: TranscriptRow
+  field: answerId
+- from: Question
+  to: Concept
+  field: concepts
+traversals:
+- name: All answers for a study, grouped by question
+  steps:
+  - GET /api/public/list_surveys to find the study's link_id
+  - GET /api/public/studies/{link_id}/questions for the question definitions
+  - GET /api/public/v1/responses/{linkId} for all responses
+  - Join answersArray[].discussionGuideQuestionId to Question.id
+- name: Match transcript media to specific questions
+  steps:
+  - GET /api/public/v1/responses/{linkId}/{responseId} for the full transcript
+  - GET /api/public/studies/{link_id}/questions for question definitions
+  - Use each row's discussionGuideQuestionId to place it, then read audio / video on that row
+- name: Group transcript rows by answer including follow-ups
+  steps:
+  - GET /api/public/v1/responses/{linkId}/{responseId}
+  - Group rows by answerId; follow-ups are marked isFollowUp true
+  - Cross-reference answersArray from the list endpoint on the same answerId
+related:
+- conventions/listen-labs-conventions.yml
+- openapi/listen-labs-study-data-openapi.json

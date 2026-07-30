@@ -1,0 +1,94 @@
+generated: '2026-07-19'
+method: searched
+status: published
+source: https://docs.listenlabs.ai/mcp-docs
+server:
+  name: Listen Labs
+  version: '1.0.0'
+  transport: http
+  transport_detail: Streamable HTTP, stateless — each request is independent, no long-lived MCP
+    sessions. Only POST is accepted on /mcp; SSE session polling on GET /mcp is not supported.
+  url: https://listenlabs.ai/mcp
+  alternate_url: https://mcp.listenlabs.ai/mcp
+  protocol: https://modelcontextprotocol.io/
+auth:
+  type: oauth2
+  profile: OAuth 2.1 with dynamic client registration
+  issuer: https://mcp.listenlabs.ai/
+  authorization_endpoint: https://mcp.listenlabs.ai/authorize
+  token_endpoint: https://mcp.listenlabs.ai/token
+  revocation_endpoint: https://mcp.listenlabs.ai/revoke
+  registration_endpoint: https://mcp.listenlabs.ai/register
+  code_challenge_methods_supported:
+  - S256
+  grant_types_supported:
+  - authorization_code
+  - refresh_token
+  scopes_supported: []
+  scopes_note: The authorization server advertises no scopes; authorization is delegated to the
+    caller's existing Listen Labs user permissions.
+  discovery:
+  - well-known/listen-labs-oauth-authorization-server.json
+  - well-known/listen-labs-oauth-protected-resource-mcp.json
+  access_token_lifetime: 1 hour
+  refresh_token_lifetime: 30 days
+  client_cleanup: Unused OAuth client registrations are removed after 90 days.
+authorization_model: >-
+  The integration acts as the authenticated user and respects the same permissions as the web app.
+  It only sees and changes studies the Listen Labs user already has access to: creating and editing
+  require edit access on the study or organization, launching requires permission to start
+  recruitment, and read-only tools require at least view access.
+clients:
+  chatgpt:
+    listed: true
+    directory: OpenAI App Store
+    url: https://chatgpt.com/apps/listen-labs/asdk_app_6a0765f330f08191a2e5d95f075948a9
+  claude:
+    listed: true
+    directory: Claude connector directory
+    url: https://claude.ai/directory/connectors/listen-labs
+  codex:
+    listed: true
+    install: codex mcp add listenlabs --url https://listenlabs.ai/mcp
+  claude_code:
+    install: claude mcp add --transport http listenlabs https://listenlabs.ai/mcp
+tools:
+- name: create_study
+  description: Create a study from a research goal via a guided setup (goals, audience, interview
+    mode, study guide).
+- name: edit_study
+  description: Change titles, questions, screeners, recruitment, interview mode, concepts,
+    incentives, and languages in natural language.
+- name: launch_study
+  description: Publish the latest edits and start recruitment. Spends real credits.
+- name: publish_study
+  description: Publish draft edits made to an already-live study so respondents see them.
+- name: get_study_state
+  description: Read the current state of a study.
+- name: list_studies
+  description: List studies the user can access, filter by title or status, see response counts and
+    whether analysis is ready (has_analysis).
+- name: list_creatable_orgs
+  description: List the organizations the user can create studies in. Also serves as the connection
+    check.
+- name: get_study_analysis
+  description: Fetch the AI-generated analysis report (markdown) with sourced quotes. Requires a
+    completed analysis run.
+- name: get_study_responses
+  description: List a study's respondent responses, paginated. Supplies the readable_id used by
+    get_response.
+- name: get_response
+  description: Retrieve one respondent's full interview transcript with deep links back to Listen
+    Labs.
+- name: search_across_studies
+  description: Find studies and themes by keyword across titles, goals, classifications, and
+    analysis themes.
+tools_source: >-
+  Tool names are taken verbatim from the Listen Labs published research skill
+  (https://github.com/MerlinAGI/listen-labs-research-skill SKILL.md), which enumerates the required
+  MCP tools. Parameter casing varies per tool (studyId vs study_id); the live tool schemas are the
+  authoritative reference.
+support: support@listenlabs.ai
+related:
+- skills/_index.yml
+- well-known/listen-labs-well-known.yml

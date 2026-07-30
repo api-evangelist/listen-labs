@@ -1,0 +1,65 @@
+# Listen Labs
+
+## Docs
+
+- [Create Study](https://docs.listenlabs.ai/api-v2/create-study.md): Validate a study guide and create a draft study in your organization
+- [Get Single Response](https://docs.listenlabs.ai/api-v2/get-response.md): Retrieve one response's transcript, URL parameters, and summaries by UUID or readable ID
+- [Launch Study](https://docs.listenlabs.ai/api-v2/launch-study.md): Publish a draft study and get its self-recruit link
+- [Get Responses](https://docs.listenlabs.ai/api-v2/list-responses.md): List a study's responses with answers and summaries, paginated
+- [List Wallets](https://docs.listenlabs.ai/api-v2/list-wallets.md): List the wallets granted to your organization, with credit balances
+- [Listen Labs API](https://docs.listenlabs.ai/api-v2/overview.md): Create, launch, and retrieve data from Listen Labs studies programmatically
+- [Quickstart: Create & Launch a Study](https://docs.listenlabs.ai/api-v2/quickstart.md): Go from JSON to a live self-recruit link in three requests
+- [Study Guide Reference](https://docs.listenlabs.ai/api-v2/study-guide.md): How to structure the studyGuide payload: blocks, question types, screening, concepts, conditional logic, and carry-forward
+- [Data Map](https://docs.listenlabs.ai/data-map.md): How the public API entities relate to each other and which fields to use as join keys.
+- [List Studies](https://docs.listenlabs.ai/endpoint.md): This endpoint lists all studies.
+- [Authentication](https://docs.listenlabs.ai/get-api-access.md)
+- [Welcome to Listen Labs](https://docs.listenlabs.ai/get-started/index.md): Listen Labs is an AI-powered research platform.
+- [Frequently Asked Questions](https://docs.listenlabs.ai/get-started/studies-overview.md): Common questions about study setup, recruitment, analysis, video, languages, and account management
+- [Get Study Questions](https://docs.listenlabs.ai/get-study-questions.md): This endpoint retrieves all questions for a specific study.
+- [Building Segments](https://docs.listenlabs.ai/insights-and-reports/building-segments.md): Split participants into groups and compare their responses side by side
+- [Video Clips & Highlight Reels](https://docs.listenlabs.ai/insights-and-reports/clips.md): Create, share, and download video clip reels to showcase the most impactful moments from your research
+- [Emotional Intelligence](https://docs.listenlabs.ai/insights-and-reports/emotional-intelligence.md)
+- [Report Tab & Executive Summary](https://docs.listenlabs.ai/insights-and-reports/executive-summary.md): Generate topline findings and an AI executive summary of your study's key results
+- [MaxDiff Questions](https://docs.listenlabs.ai/insights-and-reports/max-diff-questions.md): MaxDiff mimics real-world decision-making by forcing tradeoffs and identifying what people value most.
+- [Research Agent](https://docs.listenlabs.ai/insights-and-reports/personas.md): Your collaborative AI assistant for analysis, deliverables, and insight discovery
+- [Workspace Presentation Templates](https://docs.listenlabs.ai/insights-and-reports/presentation-templates.md): Generate Listen presentations in your own branding by configuring a workspace-level template
+- [Question Analysis & Details Tab](https://docs.listenlabs.ai/insights-and-reports/question-analysis.md): Explore question-by-question analysis, quantitative charts, and AI-generated summaries for your study
+- [Research Library](https://docs.listenlabs.ai/insights-and-reports/research-library.md): Your cross-study intelligence hub — query everything you've ever learned from your customers
+- [Appending External Data](https://docs.listenlabs.ai/insights-and-reports/thematic-analysis.md): Enrich your Listen Labs study with external data sources for deeper segmentation and analysis
+- [Integrating with Decipher (Forsta)](https://docs.listenlabs.ai/integrating-with-forsta.md)
+- [Integrating with Qualtrics](https://docs.listenlabs.ai/integrating-with-qualtrics.md)
+- [Integrating with Rally](https://docs.listenlabs.ai/integrating-with-rally.md)
+- [Responses Tab & Transcripts](https://docs.listenlabs.ai/interview-data/interview-grid-and-transcripts.md): Monitor incoming interviews in real time, review full transcripts, and manage your participant data
+- [Analysis 101](https://docs.listenlabs.ai/interview-data/talk-to-your-data.md): How to use Listen to get instant Insights
+- [Connect Your MCP Client](https://docs.listenlabs.ai/mcp-docs/connect.md): Add the Listen Labs MCP server to Claude, ChatGPT, or Codex and authenticate with OAuth.
+- [Listen Labs MCP](https://docs.listenlabs.ai/mcp-docs/index.md): Connect AI assistants (Claude, ChatGPT, Codex, and other MCP clients) to your Listen Labs account.
+- [Troubleshooting & Reference](https://docs.listenlabs.ai/mcp-docs/troubleshooting.md): Fixes for common MCP connection issues, plus technical details and support contacts.
+- [Endpoint](https://docs.listenlabs.ai/method-1.md)
+- [Get API Access](https://docs.listenlabs.ai/request-api.md)
+- [Seat Types & Permissions](https://docs.listenlabs.ai/settings-and-management/account.md)
+- [Account Page](https://docs.listenlabs.ai/settings-and-management/account-page.md)
+- [Workspace Guidelines](https://docs.listenlabs.ai/settings-and-management/workspace-guidelines.md)
+- [Localizing Your Study: Auto-Translations](https://docs.listenlabs.ai/setup-to-launch/auto-translations.md): Launch studies in multiple languages with automatic translation — no manual translation work required
+- [Concept Testing](https://docs.listenlabs.ai/setup-to-launch/concept-testing.md): When doing research interviews, there is often a need to compare multiple creatives or messages to understand which performs better with your audience.  Concept Testing is a powerful feature that enables you to test multiple concepts by asking consistent questions across all of them.
+- [Conditional Logic](https://docs.listenlabs.ai/setup-to-launch/conditional-logic.md): Show or skip questions based on participant answers to create dynamic, relevant interview experiences
+- [Screensharing (Mobile & Desktop)](https://docs.listenlabs.ai/setup-to-launch/desktop-and-mobile-screensharing.md): Capture real screen activity alongside participant interviews for usability testing, app walkthroughs, and behavioral research
+- [Customizing Your Look & Feel](https://docs.listenlabs.ai/setup-to-launch/detailed-topic-guide-settings.md): You can easily adjust how your study looks and feels to make it more engaging or on-brand for your audience. From formatting your text to adding logos and custom colors, here’s how to make your study your own.
+- [Email Campaign](https://docs.listenlabs.ai/setup-to-launch/email-campaign.md)
+- [Fraud Prevention & Quality Guard](https://docs.listenlabs.ai/setup-to-launch/fraud-prevention-and-quality-guard.md): How Listen detects and removes fraudulent or low-effort responses to protect your research data
+- [Paying your Self-Recruited Participant Incentives](https://docs.listenlabs.ai/setup-to-launch/incentives.md)
+- [Languages: Complete List](https://docs.listenlabs.ai/setup-to-launch/languages-complete-list.md)
+- [Multilingual Voice Interviewer](https://docs.listenlabs.ai/setup-to-launch/multi-lingual-voice-interviewer.md): Run AI-moderated voice interviews in 40+ languages with natural-sounding audio
+- [URL Parameters & Question Routing](https://docs.listenlabs.ai/setup-to-launch/question-routing.md): Use URL parameters for tracking, integrations, and conditional question logic in your studies
+- [Quotas](https://docs.listenlabs.ai/setup-to-launch/quotas.md): Use recruitment quotas to balance your participant sample and control who gets in
+- [Recruiting 101](https://docs.listenlabs.ai/setup-to-launch/recruiting-participants.md): Find the right people for your study using Listen's panel, your own participants, or both
+- [Screener Questions](https://docs.listenlabs.ai/setup-to-launch/screener-questions.md): Screeners questions (or screeners) filter participants before your study begins, so you only hear from the people who matter.  This guide covers what they are, when to use them, how to set them up in Listen, and how they connect to incidence rate; a key cost factor in research.
+- [Study Design 101](https://docs.listenlabs.ai/setup-to-launch/study-design-101.md)
+- [Visual Insights](https://docs.listenlabs.ai/setup-to-launch/visual-insights.md)
+
+## OpenAPI Specs
+
+- [openapi](https://docs.listenlabs.ai/api-reference/openapi.json)
+
+## Optional
+
+- [Listen Labs Website](https://listenlabs.ai)

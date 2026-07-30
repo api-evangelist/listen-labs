@@ -1,0 +1,59 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.listenlabs.ai/api-v2/overview
+versioning:
+  scheme: uri-path
+  current: v1
+  path_prefix: /api/public/v1/
+  spec_versions:
+  - spec: openapi/listen-labs-v2-openapi.yml
+    info_version: '2.0.0'
+    note: Titled "Public API v2" but served under the /api/public/v1/ path prefix — the marketing
+      generation number and the URI version differ.
+  - spec: openapi/listen-labs-study-data-openapi.json
+    info_version: '1.0.0'
+    note: Unversioned legacy paths under /api/public/.
+  docs: https://docs.listenlabs.ai/api-v2/overview
+deprecation:
+  policy_url: https://docs.listenlabs.ai/api-v2/overview
+  policy_documented: true
+  sunset_header: false
+  sunset_header_note: No RFC 8594 Sunset/Deprecation response headers are documented; deprecation is
+    announced in the docs with a dated warning.
+  announced:
+  - what: Unversioned response endpoints GET /api/public/responses/{link_id} and GET
+      /api/public/responses/{link_id}/{response_id}
+    deprecated_from: '2026-08-01'
+    replacement: GET /api/public/v1/responses/{linkId} and GET
+      /api/public/v1/responses/{linkId}/{responseId}
+    migration_note: The versioned endpoints return the same fields in camelCase; the legacy
+      endpoints return snake_case. List Studies and Get Study Questions are unchanged and keep
+      snake_case.
+    source: https://docs.listenlabs.ai/data-map
+  unaffected:
+  - GET /api/public/list_surveys
+  - GET /api/public/studies/{study_id}/questions
+deprecated_fields:
+- field: Answer.question_id
+  replacement: Answer.answer_id
+  source: openapi/listen-labs-study-data-openapi.json
+- field: TranscriptRow.question_uuid
+  replacement: TranscriptRow.discussion_guide_question_id
+  source: openapi/listen-labs-study-data-openapi.json
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in either spec carries a `deprecated` flag set to true; the deprecation is announced
+  at the docs level and via deprecated schema fields.
+status_page:
+  found: false
+  probed:
+  - https://status.listenlabs.ai
+  - https://www.listenlabs.ai/status
+  note: No public status page was found. No StatusPage pointer is emitted.
+sla:
+  found: false
+  note: No public SLA or uptime target was published.
+support: support@listenlabs.ai
+related:
+- errors/listen-labs-problem-types.yml
+- conventions/listen-labs-conventions.yml
