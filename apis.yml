@@ -66,6 +66,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/listen-labs-study-data-overlay.yaml
 - type: TrustCenter
   url: security/listen-labs-trust-center.yml
 - type: Website
