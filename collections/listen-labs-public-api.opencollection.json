@@ -1,0 +1,237 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Listen Labs API — Study Data Public API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Public",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Studies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listenlabs.ai/api/public/list_surveys"
+          },
+          "docs": "Lists all studies in the API key's organization."
+        },
+        {
+          "info": {
+            "name": "Get Responses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listenlabs.ai/api/public/responses/:link_id",
+            "params": [
+              {
+                "name": "link_id",
+                "value": "",
+                "type": "path",
+                "description": "The link ID of the study. You can find this in the study URL (e.g. in `https://listenlabs.ai/s/abc123` the link ID is `abc123`) or via the List Studies endpoint."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number for pagination."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of responses to return per page."
+              },
+              {
+                "name": "updated_since",
+                "value": "",
+                "type": "query",
+                "description": "ISO 8601 date string to filter responses updated after this date (e.g. `2023-08-18T11:51:54.649916Z`)."
+              },
+              {
+                "name": "include_in_progress",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include responses whose analysis is still in progress."
+              }
+            ]
+          },
+          "docs": "Lists all responses for a given study."
+        },
+        {
+          "info": {
+            "name": "Get Single Response",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listenlabs.ai/api/public/responses/:link_id/:response_id",
+            "params": [
+              {
+                "name": "link_id",
+                "value": "",
+                "type": "path",
+                "description": "The link ID of the study."
+              },
+              {
+                "name": "response_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the specific response to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a single response for a specific study, including the full interview transcript with audio/video links where available."
+        },
+        {
+          "info": {
+            "name": "Get Study Questions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listenlabs.ai/api/public/studies/:study_id/questions",
+            "params": [
+              {
+                "name": "study_id",
+                "value": "",
+                "type": "path",
+                "description": "The link ID of the study to retrieve questions for. You can find it in the study URL or via the List Studies endpoint."
+              }
+            ]
+          },
+          "docs": "Retrieves all questions for a specific study, from the study's latest revision."
+        },
+        {
+          "info": {
+            "name": "Create a study (draft) from a guide",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://listenlabs.ai/api/public/v1/studies/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates the guide and creates a draft study in the API key's org."
+        },
+        {
+          "info": {
+            "name": "List responses for a study",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listenlabs.ai/api/public/v1/responses/:linkId",
+            "params": [
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path",
+                "description": "The editable link ID used in the response URL."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updatedSince",
+                "value": "",
+                "type": "query",
+                "description": "Only responses updated at or after this timestamp."
+              },
+              {
+                "name": "includeInProgress",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Paginated responses with answers and summaries."
+        },
+        {
+          "info": {
+            "name": "Get one response by UUID or readable ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listenlabs.ai/api/public/v1/responses/:linkId/:responseId",
+            "params": [
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path",
+                "description": "The editable link ID used in the response URL."
+              },
+              {
+                "name": "responseId",
+                "value": "",
+                "type": "path",
+                "description": "Response UUID or positive readable numeric ID."
+              }
+            ]
+          },
+          "docs": "Response transcript, URL parameters, and summaries."
+        },
+        {
+          "info": {
+            "name": "Launch a draft and return the self-recruit link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://listenlabs.ai/api/public/v1/studies/:studyId/launch",
+            "params": [
+              {
+                "name": "studyId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Publishes the draft and opens its self-recruit link. Requires the key's user to have StartRecruitment on the study. Project responses bill to the launch wallet: pass walletId, or omit the body to auto-select the organization's wallet when it has exactly one."
+        },
+        {
+          "info": {
+            "name": "List the organization's wallets with balances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listenlabs.ai/api/public/v1/wallets"
+          },
+          "docs": "Wallets granted to the API key's organization, each with recruitment and project credit balances. Use a wallet's walletId when launching a study."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

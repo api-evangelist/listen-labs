@@ -1,0 +1,2885 @@
+{
+  "item": [
+    {
+      "id": "fe920844-2fde-4c98-bed0-1948404db7cb",
+      "name": "Public",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e33ae729-14ee-41bd-8e9a-bebfed4b6867",
+          "name": "List Studies",
+          "request": {
+            "name": "List Studies",
+            "description": {
+              "content": "Lists all studies in the API key's organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "list_surveys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cd8203e3-3f63-44f6-badb-bea56ba132e8",
+              "name": "A list of studies.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "list_surveys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"0321f87d-617d-b7a0-6925-b14115fb665f\",\n    \"link_id\": \"string\",\n    \"title\": \"string\",\n    \"created_at\": \"1958-04-06T06:26:27.636Z\",\n    \"desc\": \"string\"\n  },\n  {\n    \"id\": \"063e1a98-049a-eb3b-371b-f9efd3a20b02\",\n    \"link_id\": \"string\",\n    \"title\": \"string\",\n    \"created_at\": \"2020-05-10T05:03:15.466Z\",\n    \"desc\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b23af8c-8b67-477e-983d-8171a0c48718",
+              "name": "Missing or invalid credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "list_surveys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01a2f1a0-17bd-44ad-bdc8-b1e2f1ff848b",
+          "name": "Get Responses",
+          "request": {
+            "name": "Get Responses",
+            "description": {
+              "content": "Lists all responses for a given study.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "responses",
+                ":link_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "The page number for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "1000",
+                  "description": "Number of responses to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "updated_since",
+                  "value": "<dateTime>",
+                  "description": "ISO 8601 date string to filter responses updated after this date (e.g. `2023-08-18T11:51:54.649916Z`)."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_in_progress",
+                  "value": "true",
+                  "description": "Whether to include responses whose analysis is still in progress."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "link_id",
+                  "description": "(Required) The link ID of the study. You can find this in the study URL (e.g. in `https://listenlabs.ai/s/abc123` the link ID is `abc123`) or via the List Studies endpoint."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50bc828f-ec3a-4c9f-8ed4-4aa3db0b6fed",
+              "name": "A list of responses for the given study.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "responses",
+                    ":link_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updated_since",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "include_in_progress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "link_id",
+                      "description": "(Required) The link ID of the study. You can find this in the study URL (e.g. in `https://listenlabs.ai/s/abc123` the link ID is `abc123`) or via the List Studies endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"9379b18c-6b77-90c4-7ba1-e15873f94d2a\",\n    \"response_number\": 2756.8164361617974,\n    \"created_at\": \"2013-06-25T15:22:40.334Z\",\n    \"updated_at\": \"1974-02-10T09:27:04.405Z\",\n    \"progress\": \"string\",\n    \"response_duration_seconds\": 2151.125337685016,\n    \"answers\": {\n      \"key_0\": \"string\"\n    },\n    \"answers_array\": [\n      {\n        \"answer_id\": \"string\",\n        \"discussion_guide_question_id\": \"string\",\n        \"concept_id\": \"string\",\n        \"question_id\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      },\n      {\n        \"answer_id\": \"string\",\n        \"discussion_guide_question_id\": \"string\",\n        \"concept_id\": \"string\",\n        \"question_id\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"short_transcript\": \"string\",\n    \"short_assistant_messages\": [\n      \"string\",\n      \"string\"\n    ],\n    \"bullet_summary\": [\n      \"string\",\n      \"string\"\n    ],\n    \"quality_score\": 3955.5889264331713,\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"tagline\": \"string\",\n    \"summary\": \"string\"\n  },\n  {\n    \"id\": \"65f350f4-232d-c981-5a09-4590bdceb57f\",\n    \"response_number\": 3143.623597770381,\n    \"created_at\": \"2012-07-02T09:19:37.060Z\",\n    \"updated_at\": \"2004-03-01T02:56:33.695Z\",\n    \"progress\": \"string\",\n    \"response_duration_seconds\": 7492.13373941476,\n    \"answers\": {\n      \"key_0\": \"string\"\n    },\n    \"answers_array\": [\n      {\n        \"answer_id\": \"string\",\n        \"discussion_guide_question_id\": \"string\",\n        \"concept_id\": \"string\",\n        \"question_id\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      },\n      {\n        \"answer_id\": \"string\",\n        \"discussion_guide_question_id\": \"string\",\n        \"concept_id\": \"string\",\n        \"question_id\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": \"string\"\n    },\n    \"short_transcript\": \"string\",\n    \"short_assistant_messages\": [\n      \"string\",\n      \"string\"\n    ],\n    \"bullet_summary\": [\n      \"string\",\n      \"string\"\n    ],\n    \"quality_score\": 8779.584610046724,\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"tagline\": \"string\",\n    \"summary\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a13aea0-5efb-4742-bb85-2b0396ff9081",
+              "name": "Missing or invalid credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "responses",
+                    ":link_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updated_since",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "include_in_progress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "link_id",
+                      "description": "(Required) The link ID of the study. You can find this in the study URL (e.g. in `https://listenlabs.ai/s/abc123` the link ID is `abc123`) or via the List Studies endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e0a9697d-eb59-4f34-917b-85382d293640",
+              "name": "The requested resource was not found in the caller's organization.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "responses",
+                    ":link_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updated_since",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "include_in_progress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "link_id",
+                      "description": "(Required) The link ID of the study. You can find this in the study URL (e.g. in `https://listenlabs.ai/s/abc123` the link ID is `abc123`) or via the List Studies endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f539dc10-2d7f-4209-9b31-3a2c16f819e5",
+          "name": "Get Single Response",
+          "request": {
+            "name": "Get Single Response",
+            "description": {
+              "content": "Retrieves a single response for a specific study, including the full interview transcript with audio/video links where available.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "responses",
+                ":link_id",
+                ":response_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "link_id",
+                  "description": "(Required) The link ID of the study."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "response_id",
+                  "description": "(Required) The unique ID of the specific response to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "afa0748d-5341-47c9-9b36-16751df697a3",
+              "name": "The response with its full transcript.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "responses",
+                    ":link_id",
+                    ":response_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "link_id",
+                      "description": "(Required) The link ID of the study."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "response_id",
+                      "description": "(Required) The unique ID of the specific response to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"survey\": \"string\",\n  \"transcript\": [\n    {\n      \"moderator\": \"string\",\n      \"user\": \"string\",\n      \"discussion_guide_question_id\": \"string\",\n      \"concept_id\": \"string\",\n      \"answer_id\": \"string\",\n      \"response_index\": 9742.316609497657,\n      \"is_followup\": true,\n      \"audio\": \"string\",\n      \"video\": {\n        \"stream_url\": \"string\",\n        \"mp4_url\": \"string\"\n      },\n      \"question_uuid\": \"string\"\n    },\n    {\n      \"moderator\": \"string\",\n      \"user\": \"string\",\n      \"discussion_guide_question_id\": \"string\",\n      \"concept_id\": \"string\",\n      \"answer_id\": \"string\",\n      \"response_index\": 9064.922866198038,\n      \"is_followup\": true,\n      \"audio\": \"string\",\n      \"video\": {\n        \"stream_url\": \"string\",\n        \"mp4_url\": \"string\"\n      },\n      \"question_uuid\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "883ea3c9-57cd-4c28-b251-4e7759d0623e",
+              "name": "Missing or invalid credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "responses",
+                    ":link_id",
+                    ":response_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "link_id",
+                      "description": "(Required) The link ID of the study."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "response_id",
+                      "description": "(Required) The unique ID of the specific response to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b2b44fc8-5134-4187-8c41-9051d6627364",
+              "name": "The requested resource was not found in the caller's organization.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "responses",
+                    ":link_id",
+                    ":response_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "link_id",
+                      "description": "(Required) The link ID of the study."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "response_id",
+                      "description": "(Required) The unique ID of the specific response to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "02875a8d-48ac-422c-bfc5-3d097e116cb6",
+          "name": "Get Study Questions",
+          "request": {
+            "name": "Get Study Questions",
+            "description": {
+              "content": "Retrieves all questions for a specific study, from the study's latest revision.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "studies",
+                ":study_id",
+                "questions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "study_id",
+                  "description": "(Required) The link ID of the study to retrieve questions for. You can find it in the study URL or via the List Studies endpoint."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d160fadc-f179-4ff8-923e-13395eb676bf",
+              "name": "The study's questions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "studies",
+                    ":study_id",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "study_id",
+                      "description": "(Required) The link ID of the study to retrieve questions for. You can find it in the study URL or via the List Studies endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"questions\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"is_screener\": true,\n      \"type\": \"ranking\",\n      \"question_number\": 8062.969381119551,\n      \"concepts\": [\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"media\": [\n            {\n              \"type\": \"image\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            },\n            {\n              \"type\": \"video\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            }\n          ],\n          \"embed_url\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"media\": [\n            {\n              \"type\": \"image\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            },\n            {\n              \"type\": \"image\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            }\n          ],\n          \"embed_url\": \"string\"\n        }\n      ],\n      \"is_multi_select\": false,\n      \"options\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"is_screener\": false,\n      \"type\": \"multiple_choice\",\n      \"question_number\": 2380.619305535784,\n      \"concepts\": [\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"media\": [\n            {\n              \"type\": \"image\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            },\n            {\n              \"type\": \"image\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            }\n          ],\n          \"embed_url\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"media\": [\n            {\n              \"type\": \"image\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            },\n            {\n              \"type\": \"image\",\n              \"name\": \"string\",\n              \"url\": \"string\"\n            }\n          ],\n          \"embed_url\": \"string\"\n        }\n      ],\n      \"is_multi_select\": true,\n      \"options\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7ddceee-4441-4a12-a602-ab7025c47310",
+              "name": "Missing or invalid credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "studies",
+                    ":study_id",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "study_id",
+                      "description": "(Required) The link ID of the study to retrieve questions for. You can find it in the study URL or via the List Studies endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8f14e9f0-1c05-4740-bfee-ab0b7ac44d97",
+              "name": "The requested resource was not found in the caller's organization.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "studies",
+                    ":study_id",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "study_id",
+                      "description": "(Required) The link ID of the study to retrieve questions for. You can find it in the study URL or via the List Studies endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6bbb2992-3c60-4355-a736-46432ac367b3",
+          "name": "Create a study (draft) from a guide",
+          "request": {
+            "name": "Create a study (draft) from a guide",
+            "description": {
+              "content": "Validates the guide and creates a draft study in the API key's org.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "studies",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"studyGuide\": [\n    {\n      \"type\": \"<string>\",\n      \"title\": \"<string>\",\n      \"items\": [\n        {\n          \"text\": \"<string>\",\n          \"type\": \"<string>\",\n          \"externalId\": \"<string>\",\n          \"conditional\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"media\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"embed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"followUp\": \"<string>\",\n          \"addInstructions\": \"<string>\",\n          \"preferredInput\": \"<string>\",\n          \"screenObservationEnabled\": \"<boolean>\"\n        }\n      ],\n      \"externalId\": \"<string>\",\n      \"conceptSamplingConfig\": {\n        \"concepts\": [\n          {\n            \"nickname\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"content\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"externalId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditional\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"subsampleCount\": \"<integer>\"\n      }\n    }\n  ],\n  \"externalTitle\": \"<string>\",\n  \"background\": \"<string>\",\n  \"studyGoal\": \"<string>\",\n  \"config\": {\n    \"interviewMode\": \"<string>\",\n    \"questionLanguage\": \"<string>\",\n    \"availableLanguages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"targetPlatforms\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"welcomeMessage\": {\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"closingMessage\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ff78db74-e723-4185-94da-bca877c2b76f",
+              "name": "Draft created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"studyGuide\": [\n    {\n      \"type\": \"<string>\",\n      \"title\": \"<string>\",\n      \"items\": [\n        {\n          \"text\": \"<string>\",\n          \"type\": \"<string>\",\n          \"externalId\": \"<string>\",\n          \"conditional\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"media\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"embed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"followUp\": \"<string>\",\n          \"addInstructions\": \"<string>\",\n          \"preferredInput\": \"<string>\",\n          \"screenObservationEnabled\": \"<boolean>\"\n        }\n      ],\n      \"externalId\": \"<string>\",\n      \"conceptSamplingConfig\": {\n        \"concepts\": [\n          {\n            \"nickname\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"content\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"externalId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditional\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"subsampleCount\": \"<integer>\"\n      }\n    }\n  ],\n  \"externalTitle\": \"<string>\",\n  \"background\": \"<string>\",\n  \"studyGoal\": \"<string>\",\n  \"config\": {\n    \"interviewMode\": \"<string>\",\n    \"questionLanguage\": \"<string>\",\n    \"availableLanguages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"targetPlatforms\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"welcomeMessage\": {\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"closingMessage\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"ac7a48c5-b73e-0612-fcd2-795aee08ec5b\",\n  \"linkId\": \"string\",\n  \"status\": \"draft\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "16da4a87-1d5a-4aeb-a47f-786294acf8ef",
+              "name": "Invalid JSON, request body, or study guide. Codes: `invalid_json`, `invalid_request_body`, `invalid_study_guide`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"studyGuide\": [\n    {\n      \"type\": \"<string>\",\n      \"title\": \"<string>\",\n      \"items\": [\n        {\n          \"text\": \"<string>\",\n          \"type\": \"<string>\",\n          \"externalId\": \"<string>\",\n          \"conditional\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"media\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"embed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"followUp\": \"<string>\",\n          \"addInstructions\": \"<string>\",\n          \"preferredInput\": \"<string>\",\n          \"screenObservationEnabled\": \"<boolean>\"\n        }\n      ],\n      \"externalId\": \"<string>\",\n      \"conceptSamplingConfig\": {\n        \"concepts\": [\n          {\n            \"nickname\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"content\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"externalId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditional\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"subsampleCount\": \"<integer>\"\n      }\n    }\n  ],\n  \"externalTitle\": \"<string>\",\n  \"background\": \"<string>\",\n  \"studyGoal\": \"<string>\",\n  \"config\": {\n    \"interviewMode\": \"<string>\",\n    \"questionLanguage\": \"<string>\",\n    \"availableLanguages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"targetPlatforms\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"welcomeMessage\": {\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"closingMessage\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid JSON body\",\n  \"code\": \"invalid_json\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65f8c350-7843-4d87-aba4-07e7f2b827da",
+              "name": "Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"studyGuide\": [\n    {\n      \"type\": \"<string>\",\n      \"title\": \"<string>\",\n      \"items\": [\n        {\n          \"text\": \"<string>\",\n          \"type\": \"<string>\",\n          \"externalId\": \"<string>\",\n          \"conditional\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"media\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"embed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"followUp\": \"<string>\",\n          \"addInstructions\": \"<string>\",\n          \"preferredInput\": \"<string>\",\n          \"screenObservationEnabled\": \"<boolean>\"\n        }\n      ],\n      \"externalId\": \"<string>\",\n      \"conceptSamplingConfig\": {\n        \"concepts\": [\n          {\n            \"nickname\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"content\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"externalId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditional\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"subsampleCount\": \"<integer>\"\n      }\n    }\n  ],\n  \"externalTitle\": \"<string>\",\n  \"background\": \"<string>\",\n  \"studyGoal\": \"<string>\",\n  \"config\": {\n    \"interviewMode\": \"<string>\",\n    \"questionLanguage\": \"<string>\",\n    \"availableLanguages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"targetPlatforms\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"welcomeMessage\": {\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"closingMessage\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Missing x-api-key header\",\n  \"code\": \"missing_api_key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65fb5a26-3dfa-4943-b39c-d7c5bd367604",
+              "name": "Key's user not permitted for this resource. Codes: `forbidden`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"studyGuide\": [\n    {\n      \"type\": \"<string>\",\n      \"title\": \"<string>\",\n      \"items\": [\n        {\n          \"text\": \"<string>\",\n          \"type\": \"<string>\",\n          \"externalId\": \"<string>\",\n          \"conditional\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"media\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"embed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"followUp\": \"<string>\",\n          \"addInstructions\": \"<string>\",\n          \"preferredInput\": \"<string>\",\n          \"screenObservationEnabled\": \"<boolean>\"\n        }\n      ],\n      \"externalId\": \"<string>\",\n      \"conceptSamplingConfig\": {\n        \"concepts\": [\n          {\n            \"nickname\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"content\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"externalId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditional\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"subsampleCount\": \"<integer>\"\n      }\n    }\n  ],\n  \"externalTitle\": \"<string>\",\n  \"background\": \"<string>\",\n  \"studyGoal\": \"<string>\",\n  \"config\": {\n    \"interviewMode\": \"<string>\",\n    \"questionLanguage\": \"<string>\",\n    \"availableLanguages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"targetPlatforms\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"welcomeMessage\": {\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"closingMessage\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API key user is not a member of the key's organization\",\n  \"code\": \"forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76f42f4f-48df-41a7-bf5f-07b401b820bd",
+              "name": "The draft was modified concurrently; retry. Codes: `concurrent_modification`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"studyGuide\": [\n    {\n      \"type\": \"<string>\",\n      \"title\": \"<string>\",\n      \"items\": [\n        {\n          \"text\": \"<string>\",\n          \"type\": \"<string>\",\n          \"externalId\": \"<string>\",\n          \"conditional\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"media\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"embed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"followUp\": \"<string>\",\n          \"addInstructions\": \"<string>\",\n          \"preferredInput\": \"<string>\",\n          \"screenObservationEnabled\": \"<boolean>\"\n        }\n      ],\n      \"externalId\": \"<string>\",\n      \"conceptSamplingConfig\": {\n        \"concepts\": [\n          {\n            \"nickname\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"content\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"externalId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditional\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"subsampleCount\": \"<integer>\"\n      }\n    }\n  ],\n  \"externalTitle\": \"<string>\",\n  \"background\": \"<string>\",\n  \"studyGoal\": \"<string>\",\n  \"config\": {\n    \"interviewMode\": \"<string>\",\n    \"questionLanguage\": \"<string>\",\n    \"availableLanguages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"targetPlatforms\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"welcomeMessage\": {\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"closingMessage\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Study was modified concurrently; please retry\",\n  \"code\": \"concurrent_modification\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84fc19a6-5173-47d3-bcc7-5c40c25a502a",
+              "name": "Internal error (details are logged server-side, not returned). Codes: `internal_error`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"studyGuide\": [\n    {\n      \"type\": \"<string>\",\n      \"title\": \"<string>\",\n      \"items\": [\n        {\n          \"text\": \"<string>\",\n          \"type\": \"<string>\",\n          \"externalId\": \"<string>\",\n          \"conditional\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"media\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"embed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"followUp\": \"<string>\",\n          \"addInstructions\": \"<string>\",\n          \"preferredInput\": \"<string>\",\n          \"screenObservationEnabled\": \"<boolean>\"\n        }\n      ],\n      \"externalId\": \"<string>\",\n      \"conceptSamplingConfig\": {\n        \"concepts\": [\n          {\n            \"nickname\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"content\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"externalId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditional\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"subsampleCount\": \"<integer>\"\n      }\n    }\n  ],\n  \"externalTitle\": \"<string>\",\n  \"background\": \"<string>\",\n  \"studyGoal\": \"<string>\",\n  \"config\": {\n    \"interviewMode\": \"<string>\",\n    \"questionLanguage\": \"<string>\",\n    \"availableLanguages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"targetPlatforms\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"welcomeMessage\": {\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"closingMessage\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Internal server error\",\n  \"code\": \"internal_error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "179627d1-7852-452e-b7ca-a5bd62298e4b",
+          "name": "List responses for a study",
+          "request": {
+            "name": "List responses for a study",
+            "description": {
+              "content": "Paginated responses with answers and summaries.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "responses",
+                ":linkId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "1000"
+                },
+                {
+                  "disabled": false,
+                  "key": "updatedSince",
+                  "value": "<dateTime>",
+                  "description": "Only responses updated at or after this timestamp."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeInProgress",
+                  "value": "true"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "linkId",
+                  "description": "(Required) The editable link ID used in the response URL."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bf7add8c-c3f1-4fdb-8282-e9592de695b8",
+              "name": "Responses",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updatedSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "includeInProgress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"d2460bda-5af3-4c6d-69c3-74988b55a07f\",\n    \"readableId\": 6378,\n    \"createdAt\": \"string\",\n    \"updatedAt\": \"string\",\n    \"progress\": \"in_progress\",\n    \"responseDurationSeconds\": 3775,\n    \"answers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\",\n      \"key_3\": \"string\"\n    },\n    \"answersArray\": [\n      {\n        \"answerId\": \"930847f4-37e9-4dcd-7fc1-7f81bac80f59\",\n        \"discussionGuideQuestionId\": \"string\",\n        \"conceptId\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      },\n      {\n        \"answerId\": \"9832445c-a952-631e-74d0-db5d32f138e6\",\n        \"discussionGuideQuestionId\": \"string\",\n        \"conceptId\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      }\n    ],\n    \"urlParams\": {\n      \"key_0\": \"string\"\n    },\n    \"shortTranscript\": \"string\",\n    \"tagline\": \"string\",\n    \"bulletSummary\": [\n      \"string\",\n      \"string\"\n    ],\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"shortAssistantMessages\": [\n      \"string\",\n      \"string\"\n    ],\n    \"qualityScore\": 9188.720232995647,\n    \"otherRemarks\": \"string\",\n    \"personas\": \"string\"\n  },\n  {\n    \"id\": \"60e0a7c2-9fbd-29e9-ed32-4a4931b26d6c\",\n    \"readableId\": 8956,\n    \"createdAt\": \"string\",\n    \"updatedAt\": \"string\",\n    \"progress\": \"in_progress\",\n    \"responseDurationSeconds\": 4629,\n    \"answers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\",\n      \"key_3\": \"string\"\n    },\n    \"answersArray\": [\n      {\n        \"answerId\": \"9dc2c82a-f2eb-688f-2310-6622b15f07d0\",\n        \"discussionGuideQuestionId\": \"string\",\n        \"conceptId\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      },\n      {\n        \"answerId\": \"f04faa40-e076-7d9e-0ddf-3861b771aff2\",\n        \"discussionGuideQuestionId\": \"string\",\n        \"conceptId\": \"string\",\n        \"question\": \"string\",\n        \"answer\": \"string\"\n      }\n    ],\n    \"urlParams\": {\n      \"key_0\": \"string\"\n    },\n    \"shortTranscript\": \"string\",\n    \"tagline\": \"string\",\n    \"bulletSummary\": [\n      \"string\",\n      \"string\"\n    ],\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"shortAssistantMessages\": [\n      \"string\",\n      \"string\"\n    ],\n    \"qualityScore\": 5642.3486467340745,\n    \"otherRemarks\": \"string\",\n    \"personas\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0ed2bc6-5fa8-47cd-ba45-4bd161e167b7",
+              "name": "One or more query parameters are invalid. Codes: `bad_request`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updatedSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "includeInProgress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"page must be an integer of at least 0\",\n  \"code\": \"bad_request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95b508b0-b44d-4234-9df4-b4b1fe92f836",
+              "name": "Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updatedSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "includeInProgress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Missing x-api-key header\",\n  \"code\": \"missing_api_key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77f142ce-0b11-42af-a14a-e7e8bfff7c40",
+              "name": "Key's user not permitted for this resource. Codes: `forbidden`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updatedSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "includeInProgress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API key user is not a member of the key's organization\",\n  \"code\": \"forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59d8f587-6cec-40ee-8289-23bca5501c64",
+              "name": "The study is not in the key's organization. Codes: `study_not_found`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updatedSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "includeInProgress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Study not found\",\n  \"code\": \"study_not_found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adb5e1b5-b29a-4b45-8cdb-3546ab0d7df2",
+              "name": "Internal error (details are logged server-side, not returned). Codes: `internal_error`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "updatedSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "includeInProgress",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Internal server error\",\n  \"code\": \"internal_error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "76c50e73-65a1-4ad8-a1a0-30d6307558b7",
+          "name": "Get one response by UUID or readable ID",
+          "request": {
+            "name": "Get one response by UUID or readable ID",
+            "description": {
+              "content": "Response transcript, URL parameters, and summaries.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "responses",
+                ":linkId",
+                ":responseId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "linkId",
+                  "description": "(Required) The editable link ID used in the response URL."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "responseId",
+                  "description": "(Required) Response UUID or positive readable numeric ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2eecbbdf-6158-4a41-b74f-aa0e5e113a5d",
+              "name": "Response details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId",
+                    ":responseId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "responseId",
+                      "description": "(Required) Response UUID or positive readable numeric ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"cf685265-abc4-15d5-6e78-fdffc7c5b311\",\n  \"readableId\": 2496,\n  \"linkId\": \"string\",\n  \"urlParams\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": \"string\",\n    \"key_4\": \"string\"\n  },\n  \"tagline\": \"string\",\n  \"bulletSummary\": [\n    \"string\",\n    \"string\"\n  ],\n  \"transcript\": [\n    {\n      \"moderator\": \"string\",\n      \"user\": \"string\",\n      \"audio\": \"http://NHJDNP.zuzmZr3ETxgz-,plpud8LonSAbc.0Z8nfivlIkzsP4OCK\",\n      \"video\": {\n        \"streamUrl\": \"https://mHXzirxGkTPVULZKmTlCuoCvCSwoAp.ksOEcN7zga-,9E3GDnI4WSEKFvmXjl+,vgJhjaJUfjRl\",\n        \"mp4Url\": \"https://oZAV.jzrHBLwislIzgnJfmMJLprPfcKV+qtssuSsru0RydXhVKBa,ezX,WsM\"\n      },\n      \"responseIndex\": 2201,\n      \"discussionGuideQuestionId\": \"string\",\n      \"conceptId\": \"string\",\n      \"isFollowUp\": false,\n      \"answerId\": \"3530f7e3-de8b-0e25-005f-b42cbf051553\"\n    },\n    {\n      \"moderator\": \"string\",\n      \"user\": \"string\",\n      \"audio\": \"http://cStoPsqavGMZRNZvGMIImPDCNjXwG.ztch48QVeMRV0sBU6Gj+aocnuV2SyWBaFhPsddV0u8Z\",\n      \"video\": {\n        \"streamUrl\": \"http://VLEAkrLvxvRNluvScdVqqwDm.vvIysYUMnN\",\n        \"mp4Url\": \"https://hnnfdSnJKDwFIGqjuGuJlpukFZCCxDRGn.tkraZCid3fTjyi5fj08MuoJXD45ojLcKNx-7gS.bpr3D3ikWpOxqF85kvmPvF6ui\"\n      },\n      \"responseIndex\": 9455,\n      \"discussionGuideQuestionId\": \"string\",\n      \"conceptId\": \"string\",\n      \"isFollowUp\": false,\n      \"answerId\": \"36edd198-cc53-90a5-0c8c-7c3dca0fe6d5\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efeac316-7504-4404-9711-fb1cd242ff3c",
+              "name": "The response identifier is invalid. Codes: `bad_request`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId",
+                    ":responseId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "responseId",
+                      "description": "(Required) Response UUID or positive readable numeric ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"responseId must be a UUID or a positive readable ID\",\n  \"code\": \"bad_request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f4a0d75-cfed-430a-bb6c-373ea2e74c30",
+              "name": "Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId",
+                    ":responseId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "responseId",
+                      "description": "(Required) Response UUID or positive readable numeric ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Missing x-api-key header\",\n  \"code\": \"missing_api_key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23a96c45-9db8-48ff-9b7f-d1bb750bbdc6",
+              "name": "Key's user not permitted for this resource. Codes: `forbidden`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId",
+                    ":responseId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "responseId",
+                      "description": "(Required) Response UUID or positive readable numeric ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API key user is not a member of the key's organization\",\n  \"code\": \"forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4bac9211-5a93-4503-b247-fd8fd71b15ea",
+              "name": "Study or response not found. Codes: `study_not_found`, `response_not_found`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId",
+                    ":responseId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "responseId",
+                      "description": "(Required) Response UUID or positive readable numeric ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Study not found\",\n  \"code\": \"study_not_found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2121822e-9cb2-4863-b1c7-e1005869743b",
+              "name": "Internal error (details are logged server-side, not returned). Codes: `internal_error`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "responses",
+                    ":linkId",
+                    ":responseId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkId",
+                      "description": "(Required) The editable link ID used in the response URL."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "responseId",
+                      "description": "(Required) Response UUID or positive readable numeric ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Internal server error\",\n  \"code\": \"internal_error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0747ca98-9bc8-4636-8165-d8c86f909726",
+          "name": "Launch a draft and return the self-recruit link",
+          "request": {
+            "name": "Launch a draft and return the self-recruit link",
+            "description": {
+              "content": "Publishes the draft and opens its self-recruit link. Requires the key's user to have StartRecruitment on the study. Project responses bill to the launch wallet: pass walletId, or omit the body to auto-select the organization's wallet when it has exactly one.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "studies",
+                ":studyId",
+                "launch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "studyId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f379daaf-4121-4e5a-b11f-52cdad1a0cd9",
+              "name": "Launched",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    ":studyId",
+                    "launch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "studyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"f481ed42-a5b9-02e9-edb6-8bcc21ac62b3\",\n  \"linkId\": \"string\",\n  \"selfRecruitLink\": \"http://LsqC.yeoeXAMyYXugko5UwA7yfReK3p-NgJBfMSqG9hKx+Jw\",\n  \"status\": \"live\",\n  \"wallet\": {\n    \"walletId\": \"d51917b9-17cf-575b-20b1-63aab22be61b\",\n    \"name\": \"string\",\n    \"recruitmentCreditBalance\": {\n      \"balance\": 4395.448252756986,\n      \"usage\": 7749.84279617437\n    },\n    \"projectCreditBalance\": {\n      \"balance\": 5924.311973543563,\n      \"usage\": 7623.782180544206\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4a72040-ad54-4bd2-8e2d-9447542c4f00",
+              "name": "Invalid body, the organization has multiple wallets and walletId was omitted, or the wallet cannot fund the launch (insufficient balance or grant limit). Codes: `invalid_json`, `invalid_request_body`, `wallet_required`, `insufficient_credits`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    ":studyId",
+                    "launch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "studyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid JSON body\",\n  \"code\": \"invalid_json\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e18e1c36-437e-438e-a956-5279fbd6bf4e",
+              "name": "Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    ":studyId",
+                    "launch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "studyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Missing x-api-key header\",\n  \"code\": \"missing_api_key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d47d13cd-9703-42ae-adcf-480bb15b83f2",
+              "name": "No permission to launch this study, or no access to the specified wallet. Codes: `launch_permission_denied`, `wallet_access_denied`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    ":studyId",
+                    "launch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "studyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"No permission to launch this study\",\n  \"code\": \"launch_permission_denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6224362c-b307-4881-862c-a64028eec4f1",
+              "name": "Study not found in the key's org. Codes: `study_not_found`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    ":studyId",
+                    "launch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "studyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Study not found\",\n  \"code\": \"study_not_found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "baa3201c-8abc-439a-8c88-80081dd6a8f7",
+              "name": "The study is busy (an update is in flight) or the publish raced a concurrent edit. Codes: `study_busy`, `conflict`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    ":studyId",
+                    "launch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "studyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Study is currently being updated. Try again in a moment.\",\n  \"code\": \"study_busy\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f10104c-4f04-4193-8b37-49864cbc551c",
+              "name": "Internal error (details are logged server-side, not returned). Codes: `internal_error`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "studies",
+                    ":studyId",
+                    "launch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "studyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Internal server error\",\n  \"code\": \"internal_error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1dc7573c-e747-4b73-9b16-a35d76b65abd",
+          "name": "List the organization's wallets with balances",
+          "request": {
+            "name": "List the organization's wallets with balances",
+            "description": {
+              "content": "Wallets granted to the API key's organization, each with recruitment and project credit balances. Use a wallet's walletId when launching a study.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "wallets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "335c0086-bf52-4a45-a911-5c8e39579fac",
+              "name": "Wallets",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "wallets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"wallets\": [\n    {\n      \"walletId\": \"e1d954db-5cd5-8891-a1c4-1c22aab2cff8\",\n      \"name\": \"string\",\n      \"recruitmentCreditBalance\": {\n        \"balance\": 3220.110056613974,\n        \"usage\": 8503.13908337392\n      },\n      \"projectCreditBalance\": {\n        \"balance\": 8798.147752588873,\n        \"usage\": 2819.1470249586805\n      }\n    },\n    {\n      \"walletId\": \"016cf274-1b9e-2925-5eef-76f8f70e57a6\",\n      \"name\": \"string\",\n      \"recruitmentCreditBalance\": {\n        \"balance\": 1698.1047781104019,\n        \"usage\": 3025.623914496044\n      },\n      \"projectCreditBalance\": {\n        \"balance\": 5626.4326920659205,\n        \"usage\": 5697.948660865381\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8989a820-d459-40c7-a313-fd088cffb8d6",
+              "name": "Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "wallets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Missing x-api-key header\",\n  \"code\": \"missing_api_key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2fee86fa-e93e-483a-9271-2d7da7ac7515",
+              "name": "Internal error (details are logged server-side, not returned). Codes: `internal_error`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "wallets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Internal server error\",\n  \"code\": \"internal_error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://listenlabs.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "57481776-c029-41ba-ba73-f7b1471b4aa3",
+    "name": "Listen Labs API — Study Data Public API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Retrieve studies, responses, transcripts, and questions from Listen Labs. Authenticate with an `x-api-key` header (contact support@listenlabs.ai to request a key). Each API key is scoped to a single organization.\n\nEndpoints for creating and launching studies are described in a separate spec: https://docs.listenlabs.ai/api-v2/openapi.yaml\n\nFull documentation: https://docs.listenlabs.ai",
+      "type": "text/plain"
+    }
+  }
+}
