@@ -10,6 +10,18 @@ description: 'Listen Labs is an AI-powered customer research platform that runs 
   publishes an officially hosted remote MCP server with OAuth 2.1 so agents in Claude, ChatGPT, and
   Codex can create, edit, launch, and analyze studies conversationally.'
 url: https://raw.githubusercontent.com/api-evangelist/listen-labs/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
