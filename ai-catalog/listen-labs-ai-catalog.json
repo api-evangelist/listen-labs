@@ -1,0 +1,166 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Listen Labs",
+    "identifier": "listenlabs.com"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:listenlabs.com:server:mcp",
+      "displayName": "Listen Labs MCP Server",
+      "type": "application/mcp-server-card+json",
+      "url": "https://listenlabs.ai/mcp",
+      "description": "Remote MCP server for Listen Labs. Lets AI assistants create and edit studies, launch participant recruitment, browse and organize studies, search across research, and read transcripts and analysis reports. Stateless streamable HTTP transport with OAuth 2.0 automatic discovery.",
+      "capabilities": [
+        "list_studies",
+        "search_across_studies",
+        "get_study_state",
+        "get_study_responses",
+        "get_response",
+        "get_study_analysis",
+        "list_creatable_orgs",
+        "create_study",
+        "edit_study",
+        "publish_study",
+        "launch_study",
+        "move_study",
+        "manage_folder"
+      ],
+      "tags": [
+        "mcp",
+        "customer-research",
+        "user-interviews",
+        "insights"
+      ],
+      "representativeQueries": [
+        "create a user interview study about onboarding friction",
+        "launch recruitment for my pricing study",
+        "what did participants say about checkout in my latest study",
+        "summarize the analysis report for my concept test"
+      ],
+      "metadata": {
+        "transport": "streamable-http",
+        "authentication": "oauth2",
+        "authorizationEndpoint": "https://listenlabs.ai/mcp/authorize",
+        "alternateEndpoints": [
+          "https://mcp.listenlabs.ai/mcp",
+          "https://mcp.eu.listenlabs.com/mcp"
+        ],
+        "documentation": "https://docs.listenlabs.com/mcp-docs"
+      },
+      "trustManifest": {
+        "identity": "https://listenlabs.ai/mcp",
+        "identityType": "dns",
+        "attestations": [
+          {
+            "type": "SOC2-Type2",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "SOC 2 Type II report with independently audited controls for security, availability, and confidentiality, available through the Listen Labs Trust Center."
+          },
+          {
+            "type": "ISO27001",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "ISO 27001 information security management certification."
+          },
+          {
+            "type": "ISO27701",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "ISO 27701 privacy information management certification."
+          },
+          {
+            "type": "ISO42001",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "ISO 42001 AI management system certification."
+          },
+          {
+            "type": "GDPR",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "GDPR compliance documentation, including subprocessor list."
+          }
+        ],
+        "privacyPolicyUrl": "https://listenlabs.com/privacy",
+        "termsOfServiceUrl": "https://listenlabs.com/terms"
+      },
+      "updatedAt": "2026-08-24T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:listenlabs.com:api:v2",
+      "displayName": "Listen Labs API",
+      "type": "application/vnd.oai.openapi",
+      "url": "https://docs.listenlabs.com/api-v2/openapi.yaml",
+      "description": "REST API to create, launch, and retrieve data from Listen Labs studies programmatically: create and launch studies, list studies and wallets, fetch study questions, and retrieve participant responses.",
+      "tags": [
+        "api",
+        "openapi",
+        "rest",
+        "customer-research"
+      ],
+      "representativeQueries": [
+        "programmatically create and launch a study",
+        "retrieve all responses for a completed study"
+      ],
+      "metadata": {
+        "servers": [
+          "https://listenlabs.ai",
+          "https://eu.listenlabs.com"
+        ],
+        "basePath": "/api/public/v1",
+        "documentation": "https://docs.listenlabs.com/api-v2/overview",
+        "authentication": "api-key",
+        "accessRequest": "https://docs.listenlabs.com/request-api"
+      },
+      "trustManifest": {
+        "identity": "https://docs.listenlabs.com/api-v2/openapi.yaml",
+        "identityType": "dns",
+        "attestations": [
+          {
+            "type": "SOC2-Type2",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "SOC 2 Type II report with independently audited controls for security, availability, and confidentiality, available through the Listen Labs Trust Center."
+          },
+          {
+            "type": "ISO27001",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "ISO 27001 information security management certification."
+          },
+          {
+            "type": "ISO27701",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "ISO 27701 privacy information management certification."
+          },
+          {
+            "type": "ISO42001",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "ISO 42001 AI management system certification."
+          },
+          {
+            "type": "GDPR",
+            "uri": "https://trust.listenlabs.ai/",
+            "description": "GDPR compliance documentation, including subprocessor list."
+          }
+        ],
+        "privacyPolicyUrl": "https://listenlabs.com/privacy",
+        "termsOfServiceUrl": "https://listenlabs.com/terms"
+      },
+      "updatedAt": "2026-08-24T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:listenlabs.com:docs:llms-txt",
+      "displayName": "Listen Labs Documentation Index",
+      "type": "text/markdown",
+      "url": "https://docs.listenlabs.com/llms.txt",
+      "description": "Agent-readable llms.txt index of the Listen Labs product documentation, including the API reference and MCP connection guides.",
+      "tags": [
+        "docs",
+        "llms-txt"
+      ],
+      "trustManifest": {
+        "identity": "https://docs.listenlabs.com/llms.txt",
+        "identityType": "dns",
+        "privacyPolicyUrl": "https://listenlabs.com/privacy",
+        "termsOfServiceUrl": "https://listenlabs.com/terms"
+      },
+      "updatedAt": "2026-08-24T00:00:00Z"
+    }
+  ]
+}
