@@ -1,7 +1,8 @@
 {
   "provider": "listen-labs",
   "sources": [
-    "listen-labs-public-api-openapi.yml"
+    "_original/listen-labs-study-data-openapi.json",
+    "_original/listen-labs-v2-openapi.yml"
   ],
   "outputs": [
     "listen-labs-public-api-openapi.yml"
@@ -9,6 +10,25 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "listen-labs-study-data-openapi.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "listen-labs-study-data-openapi.json: tagged paths GET /api/public/list_surveys -> Public",
+    "listen-labs-study-data-openapi.json: tagged paths GET /api/public/responses/{link_id} -> Public",
+    "listen-labs-study-data-openapi.json: tagged paths GET /api/public/responses/{link_id}/{response_id} -> Public",
+    "listen-labs-study-data-openapi.json: tagged paths GET /api/public/studies/{study_id}/questions -> Public",
+    "listen-labs-study-data-openapi.json: declared missing tag: Public",
+    "listen-labs-v2-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "listen-labs-v2-openapi.yml: tagged paths POST /api/public/v1/studies/create -> Public",
+    "listen-labs-v2-openapi.yml: tagged paths GET /api/public/v1/responses/{linkId} -> Public",
+    "listen-labs-v2-openapi.yml: tagged paths GET /api/public/v1/responses/{linkId}/{responseId} -> Public",
+    "listen-labs-v2-openapi.yml: tagged paths POST /api/public/v1/studies/{studyId}/launch -> Public",
+    "listen-labs-v2-openapi.yml: tagged paths GET /api/public/v1/wallets -> Public",
+    "listen-labs-v2-openapi.yml: declared missing tag: Public",
+    "tag 'Public' spans 2 source specs (listen-labs-study-data-openapi.json, listen-labs-v2-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "listen-labs-public-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
