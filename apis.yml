@@ -72,7 +72,6 @@ apis:
   name: Listen Labs Public API
   description: The Public API from Listen Labs — 9 operation(s) for public.
   humanURL: https://docs.listenlabs.ai/endpoint
-  baseURL: https://listenlabs.ai
   tags:
   - Public
   properties:
