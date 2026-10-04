@@ -45,6 +45,9 @@ x-tier-reason: public-api-openapi-mcp
 specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-19'
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
 tags:
 - Company
 - Artificial Intelligence
@@ -89,6 +92,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/listen-labs-capability-edges.yml
+  name: Listen Labs Business Capability Map
 - type: Overlay
   url: overlays/listen-labs-study-data-overlay.yaml
 - type: TrustCenter
