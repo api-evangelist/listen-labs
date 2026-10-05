@@ -1,0 +1,26 @@
+slug: listen-labs
+provider: Listen Labs
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Public
+  spec_file: listen-labs-public-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.72
+  evidence: '''Create a study (draft) from a guide'', ''Launch a draft and return the self-recruit link'',
+    ''Get Responses'', schemas ''Study'', ''TranscriptRow'', ''ResponseSummary'''
+  reason: Operations create and launch AI-moderated research studies and retrieve participant responses/transcripts
+    — i.e. customer/market research execution, which maps to Market Intelligence Management. Confidence
+    moderated because the tag is the generic 'Public' and includes a wallet-balance endpoint.
