@@ -494,50 +494,83 @@ paths:
       description: Production
 components:
   schemas:
-    Study:
+    Question:
+      type: object
+      required:
+      - id
+      - text
+      - is_screener
+      - type
+      - question_number
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the question. Matches the `discussion_guide_question_id` field in the response endpoints.
+        text:
+          type: string
+          description: The question text shown to participants.
+        is_screener:
+          type: boolean
+          description: Whether this question is part of the screening section.
+        type:
+          type: string
+          enum:
+          - open_ended
+          - multiple_choice
+          - ranking
+          - statement
+          description: The question type.
+        question_number:
+          type: number
+          description: The human-readable question number for display purposes.
+        concepts:
+          type: array
+          description: Concept objects attached to this question (empty if the question is not part of a concept test block).
+          items:
+            $ref: '#/components/schemas/Concept'
+        is_multi_select:
+          type: boolean
+          description: 'Multiple choice only: whether the participant can select multiple options.'
+        options:
+          type: array
+          items:
+            type: string
+          description: 'Multiple choice and ranking only: the list of answer options or items to rank.'
+    Concept:
       type: object
       properties:
         id:
           type: string
-          format: uuid
-          description: Permanent unique identifier for the study.
-        link_id:
-          type: string
-          description: The link ID of the study. Editable in study settings, so it might change.
+          description: Unique identifier for the concept.
         title:
           type: string
-          description: The title of the study.
-        created_at:
+          description: The concept title.
+        description:
           type: string
-          format: date-time
-          description: UTC timestamp of when the study was created.
-        desc:
-          type: string
-          description: A description of the study, e.g. "My study (10 Responses)".
-    Answer:
-      type: object
-      properties:
-        answer_id:
-          type: string
-          description: The answer ID. Matches the `answer_id` on transcript rows from the single response endpoint, enabling cross-referencing.
-        discussion_guide_question_id:
-          type: string
-          description: The discussion guide question ID. Matches the `id` field from the Get Study Questions endpoint, enabling you to join answers with their question definitions.
-        concept_id:
+          description: The concept description.
+        media:
+          type: array
+          description: Media attachments.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - image
+                - video
+                description: The media type.
+              name:
+                type: string
+                description: The file name of the media.
+              url:
+                type: string
+                description: The URL of the media file.
+        embed_url:
           type:
           - string
           - 'null'
-          description: The concept ID. Null if not concept-specific.
-        question_id:
-          type: string
-          deprecated: true
-          description: Deprecated. Use `answer_id` instead.
-        question:
-          type: string
-          description: 'The question text, prefixed with its number when available (e.g. "Q1: What is your age?").'
-        answer:
-          type: string
-          description: The answer to the question.
+          description: An optional embed URL for the concept (e.g. a Figma or prototype link).
     ResponseSummary:
       type: object
       properties:
@@ -606,6 +639,50 @@ components:
         summary:
           type: string
           description: A natural-language summary of the response. May be omitted when a summary has not yet been generated.
+    Study:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Permanent unique identifier for the study.
+        link_id:
+          type: string
+          description: The link ID of the study. Editable in study settings, so it might change.
+        title:
+          type: string
+          description: The title of the study.
+        created_at:
+          type: string
+          format: date-time
+          description: UTC timestamp of when the study was created.
+        desc:
+          type: string
+          description: A description of the study, e.g. "My study (10 Responses)".
+    Answer:
+      type: object
+      properties:
+        answer_id:
+          type: string
+          description: The answer ID. Matches the `answer_id` on transcript rows from the single response endpoint, enabling cross-referencing.
+        discussion_guide_question_id:
+          type: string
+          description: The discussion guide question ID. Matches the `id` field from the Get Study Questions endpoint, enabling you to join answers with their question definitions.
+        concept_id:
+          type:
+          - string
+          - 'null'
+          description: The concept ID. Null if not concept-specific.
+        question_id:
+          type: string
+          deprecated: true
+          description: Deprecated. Use `answer_id` instead.
+        question:
+          type: string
+          description: 'The question text, prefixed with its number when available (e.g. "Q1: What is your age?").'
+        answer:
+          type: string
+          description: The answer to the question.
     TranscriptRow:
       type: object
       properties:
@@ -655,41 +732,6 @@ components:
           type: string
           deprecated: true
           description: Deprecated. Use `discussion_guide_question_id` instead.
-    Concept:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the concept.
-        title:
-          type: string
-          description: The concept title.
-        description:
-          type: string
-          description: The concept description.
-        media:
-          type: array
-          description: Media attachments.
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                - image
-                - video
-                description: The media type.
-              name:
-                type: string
-                description: The file name of the media.
-              url:
-                type: string
-                description: The URL of the media file.
-        embed_url:
-          type:
-          - string
-          - 'null'
-          description: An optional embed URL for the concept (e.g. a Figma or prototype link).
     ResponseDetail:
       type: object
       properties:
@@ -704,189 +746,7 @@ components:
           description: A complete transcript of the conversation.
           items:
             $ref: '#/components/schemas/TranscriptRow'
-    Question:
-      type: object
-      required:
-      - id
-      - text
-      - is_screener
-      - type
-      - question_number
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the question. Matches the `discussion_guide_question_id` field in the response endpoints.
-        text:
-          type: string
-          description: The question text shown to participants.
-        is_screener:
-          type: boolean
-          description: Whether this question is part of the screening section.
-        type:
-          type: string
-          enum:
-          - open_ended
-          - multiple_choice
-          - ranking
-          - statement
-          description: The question type.
-        question_number:
-          type: number
-          description: The human-readable question number for display purposes.
-        concepts:
-          type: array
-          description: Concept objects attached to this question (empty if the question is not part of a concept test block).
-          items:
-            $ref: '#/components/schemas/Concept'
-        is_multi_select:
-          type: boolean
-          description: 'Multiple choice only: whether the participant can select multiple options.'
-        options:
-          type: array
-          items:
-            type: string
-          description: 'Multiple choice and ranking only: the list of answer options or items to rank.'
-    Criterion:
-      oneOf:
-      - $ref: '#/components/schemas/SelectedTemplateOptionsCriterion'
-      - $ref: '#/components/schemas/SearchParamCriterion'
-      discriminator:
-        propertyName: type
-        mapping:
-          selectedTemplateOptions: '#/components/schemas/SelectedTemplateOptionsCriterion'
-          searchParam: '#/components/schemas/SearchParamCriterion'
-    Conditional:
-      type: object
-      properties:
-        operator:
-          type: string
-          enum:
-          - and
-          - or
-        criteria:
-          type: array
-          items:
-            $ref: '#/components/schemas/Criterion'
-          minItems: 1
-      required:
-      - operator
-      - criteria
-      additionalProperties: false
-    SelectedTemplateOptionsCriterion:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - selectedTemplateOptions
-        questionId:
-          type: string
-          minLength: 1
-          description: externalId of an earlier multiple_choice or matrix item.
-        matchingCriteria:
-          type: string
-          enum:
-          - mustSelect
-          - mustNotSelect
-        choices:
-          type: array
-          items:
-            type: string
-          minItems: 1
-          description: Option externalIds (falls back to option text). Columns for a matrix source.
-        matrixRow:
-          type:
-          - string
-          - 'null'
-          description: Required only for a matrix source; the exact row text.
-      required:
-      - type
-      - questionId
-      - matchingCriteria
-      - choices
-      additionalProperties: false
-    Wallet:
-      type: object
-      properties:
-        walletId:
-          type: string
-          format: uuid
-        name:
-          type: string
-        recruitmentCreditBalance:
-          $ref: '#/components/schemas/CreditBalance'
-        projectCreditBalance:
-          $ref: '#/components/schemas/CreditBalance'
-      required:
-      - walletId
-      - name
-      - recruitmentCreditBalance
-      - projectCreditBalance
-      additionalProperties: false
-    Media:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
-        type:
-          type: string
-          enum:
-          - image
-          - video
-        widthPercentage:
-          type: number
-        forceWatching:
-          type: boolean
-      required:
-      - name
-      - url
-      - type
-      additionalProperties: false
-    SingleResponseVideo:
-      type: object
-      properties:
-        streamUrl:
-          type: string
-          format: uri
-        mp4Url:
-          type: string
-          format: uri
-      additionalProperties: false
-    SearchParamCriterion:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - searchParam
-        parameter:
-          type: string
-          minLength: 1
-        value:
-          type: string
-      required:
-      - type
-      - parameter
-      - value
-      additionalProperties: false
-    CreditBalance:
-      type: object
-      properties:
-        balance:
-          type: number
-          description: Credits currently available to spend.
-        usage:
-          type: number
-          description: Credits already used by this organization, including active holds.
-      required:
-      - balance
-      - usage
-      additionalProperties: false
-    MultipleChoiceItem:
+    StatementItem:
       type: object
       properties:
         externalId:
@@ -911,50 +771,31 @@ components:
         type:
           type: string
           enum:
-          - multiple_choice
-        options:
-          type: array
-          items:
-            $ref: '#/components/schemas/Option'
-          minItems: 1
-          description: Required unless carryForwardFrom is set; carry-forward questions inherit the source's selected options.
-        multiSelect:
-          type:
-          - boolean
-          - 'null'
-        allowCustomOption:
-          type:
-          - boolean
-          - 'null'
-        minSelect:
-          type:
-          - integer
-          - 'null'
-          exclusiveMinimum: 0
-        maxSelect:
-          type:
-          - integer
-          - 'null'
-          exclusiveMinimum: 0
-        randomizeOptionOrder:
-          type:
-          - boolean
-          - 'null'
-        pinnedFinalOption:
-          type:
-          - boolean
-          - 'null'
-        carryForwardFrom:
-          type:
-          - string
-          - 'null'
-          description: externalId of an earlier multi-select multiple_choice item; this question shows only the options the participant selected there.
+          - statement
+        continueButtonText:
+          type: string
       required:
       - text
       - type
       additionalProperties: false
-      description: minSelect/maxSelect must both be set or both null, only when multiSelect is true, and minSelect must be <= maxSelect. exclusiveOption is only valid on the final option of a multi-select.
-    CreateResponse:
+    Conditional:
+      type: object
+      properties:
+        operator:
+          type: string
+          enum:
+          - and
+          - or
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/Criterion'
+          minItems: 1
+      required:
+      - operator
+      - criteria
+      additionalProperties: false
+    LaunchResponse:
       type: object
       properties:
         id:
@@ -962,88 +803,22 @@ components:
           format: uuid
         linkId:
           type: string
+        selfRecruitLink:
+          type: string
+          format: uri
         status:
           type: string
           enum:
-          - draft
+          - live
+        wallet:
+          allOf:
+          - $ref: '#/components/schemas/Wallet'
+          description: The wallet this launch is billed to. Omitted when no wallet is bound (organization without wallet billing).
       required:
       - id
       - linkId
+      - selfRecruitLink
       - status
-      additionalProperties: false
-    ListResponseAnswer:
-      type: object
-      properties:
-        answerId:
-          type: string
-          format: uuid
-        discussionGuideQuestionId:
-          type:
-          - string
-          - 'null'
-        conceptId:
-          type:
-          - string
-          - 'null'
-        question:
-          type: string
-        answer:
-          type: string
-      additionalProperties: false
-    Embed:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-        proxyUrl:
-          type: string
-          format: uri
-      required:
-      - url
-      additionalProperties: false
-    WalletsResponse:
-      type: object
-      properties:
-        wallets:
-          type: array
-          items:
-            $ref: '#/components/schemas/Wallet'
-      required:
-      - wallets
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable description of the failure.
-        code:
-          type: string
-          enum:
-          - invalid_json
-          - invalid_request_body
-          - invalid_study_guide
-          - wallet_required
-          - insufficient_credits
-          - bad_request
-          - missing_api_key
-          - invalid_api_key
-          - unauthorized
-          - launch_permission_denied
-          - wallet_access_denied
-          - forbidden
-          - study_not_found
-          - response_not_found
-          - not_found
-          - study_busy
-          - concurrent_modification
-          - conflict
-          - internal_error
-          description: Stable machine-readable error code. Branch on this, not on the `error` text, which may change.
-      required:
-      - error
-      - code
       additionalProperties: false
     Config:
       type: object
@@ -1198,7 +973,35 @@ components:
             - android
             - desktop
       additionalProperties: false
-    StatementItem:
+    Block:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: Stable identifier for this block. Auto-generated when omitted. Unique within the payload.
+        type:
+          type: string
+          enum:
+          - flat
+          - concept
+          - screening
+        title:
+          type: string
+        conceptSamplingConfig:
+          allOf:
+          - $ref: '#/components/schemas/ConceptSamplingConfig'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          minItems: 1
+      required:
+      - type
+      - title
+      - items
+      additionalProperties: false
+    MatrixItem:
       type: object
       properties:
         externalId:
@@ -1223,13 +1026,330 @@ components:
         type:
           type: string
           enum:
-          - statement
-        continueButtonText:
-          type: string
+          - matrix
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+          minItems: 1
+          description: The columns each row is single-select across.
+        rows:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                minLength: 1
+            required:
+            - text
+            additionalProperties: false
+          minItems: 1
       required:
       - text
       - type
+      - options
+      - rows
       additionalProperties: false
+    Media:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        type:
+          type: string
+          enum:
+          - image
+          - video
+        widthPercentage:
+          type: number
+        forceWatching:
+          type: boolean
+      required:
+      - name
+      - url
+      - type
+      additionalProperties: false
+    ListResponseAnswer:
+      type: object
+      properties:
+        answerId:
+          type: string
+          format: uuid
+        discussionGuideQuestionId:
+          type:
+          - string
+          - 'null'
+        conceptId:
+          type:
+          - string
+          - 'null'
+        question:
+          type: string
+        answer:
+          type: string
+      additionalProperties: false
+    Item:
+      oneOf:
+      - $ref: '#/components/schemas/OpenEndedItem'
+      - $ref: '#/components/schemas/MultipleChoiceItem'
+      - $ref: '#/components/schemas/RankingItem'
+      - $ref: '#/components/schemas/MatrixItem'
+      - $ref: '#/components/schemas/MaxDiffItem'
+      - $ref: '#/components/schemas/StatementItem'
+      discriminator:
+        propertyName: type
+        mapping:
+          open_ended: '#/components/schemas/OpenEndedItem'
+          multiple_choice: '#/components/schemas/MultipleChoiceItem'
+          ranking: '#/components/schemas/RankingItem'
+          matrix: '#/components/schemas/MatrixItem'
+          max_diff: '#/components/schemas/MaxDiffItem'
+          statement: '#/components/schemas/StatementItem'
+    GetSingleResponseResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        readableId:
+          type: integer
+          exclusiveMinimum: 0
+        linkId:
+          type: string
+        urlParams:
+          type: object
+          additionalProperties:
+            type: string
+          description: Visible URL parameters.
+        tagline:
+          type:
+          - string
+          - 'null'
+          description: Generated tagline.
+        bulletSummary:
+          type: array
+          items:
+            type: string
+          description: Generated summary bullets.
+        transcript:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleResponseTranscriptItem'
+      additionalProperties: false
+    Option:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: Optional handle so a conditional can reference this option by id. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - approve
+          - reject
+          - neutral
+          default: null
+          description: Required inside screening blocks, null elsewhere.
+        exclusiveOption:
+          type: boolean
+          description: Only valid on the final option of a multi-select multiple_choice question; selecting it clears and locks the other options.
+      required:
+      - text
+      additionalProperties: false
+    Wallet:
+      type: object
+      properties:
+        walletId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        recruitmentCreditBalance:
+          $ref: '#/components/schemas/CreditBalance'
+        projectCreditBalance:
+          $ref: '#/components/schemas/CreditBalance'
+      required:
+      - walletId
+      - name
+      - recruitmentCreditBalance
+      - projectCreditBalance
+      additionalProperties: false
+    MaxDiffItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: Stable identifier for this item. Auto-generated when omitted; set it only when a conditional (questionId) or carryForwardFrom references it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+          - $ref: '#/components/schemas/Conditional'
+        media:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Media'
+        embed:
+          allOf:
+          - $ref: '#/components/schemas/Embed'
+        type:
+          type: string
+          enum:
+          - max_diff
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+          minItems: 2
+          description: The items being compared.
+        metric:
+          type:
+          - string
+          - 'null'
+        itemsPerScreen:
+          anyOf:
+          - type: number
+            enum:
+            - 3
+          - type: number
+            enum:
+            - 4
+          - type: number
+            enum:
+            - 5
+      required:
+      - text
+      - type
+      - options
+      additionalProperties: false
+    Concept_2:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: Stable identifier for this concept. Auto-generated when omitted. Unique within the payload.
+        nickname:
+          type: string
+          minLength: 1
+        content:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type:
+              - string
+              - 'null'
+            media:
+              type: array
+              items:
+                $ref: '#/components/schemas/ConceptMedia'
+            embed:
+              type:
+              - object
+              - 'null'
+              properties:
+                url:
+                  type: string
+                  format: uri
+              required:
+              - url
+              additionalProperties: false
+          required:
+          - title
+          additionalProperties: false
+        conditional:
+          allOf:
+          - $ref: '#/components/schemas/Conditional'
+          description: Shows this concept only to participants matching the criteria, e.g. gate each concept on a screener answer. selectedTemplateOptions criteria must reference an item in a block before the concept block.
+      required:
+      - nickname
+      - content
+      additionalProperties: false
+    WalletsResponse:
+      type: object
+      properties:
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Wallet'
+      required:
+      - wallets
+      additionalProperties: false
+    SingleResponseVideo:
+      type: object
+      properties:
+        streamUrl:
+          type: string
+          format: uri
+        mp4Url:
+          type: string
+          format: uri
+      additionalProperties: false
+    ValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the failure.
+        code:
+          type: string
+          enum:
+          - invalid_json
+          - invalid_request_body
+          - invalid_study_guide
+          - wallet_required
+          - insufficient_credits
+          - bad_request
+          - missing_api_key
+          - invalid_api_key
+          - unauthorized
+          - launch_permission_denied
+          - wallet_access_denied
+          - forbidden
+          - study_not_found
+          - response_not_found
+          - not_found
+          - study_busy
+          - concurrent_modification
+          - conflict
+          - internal_error
+          description: Stable machine-readable error code. Branch on this, not on the `error` text, which may change.
+        issues:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: 'Present when code is `invalid_request_body`: the schema violations (Zod issues), each with a `path` and `message`.'
+      required:
+      - error
+      - code
+      additionalProperties: false
+    Criterion:
+      oneOf:
+      - $ref: '#/components/schemas/SelectedTemplateOptionsCriterion'
+      - $ref: '#/components/schemas/SearchParamCriterion'
+      discriminator:
+        propertyName: type
+        mapping:
+          selectedTemplateOptions: '#/components/schemas/SelectedTemplateOptionsCriterion'
+          searchParam: '#/components/schemas/SearchParamCriterion'
     RankingItem:
       type: object
       properties:
@@ -1275,49 +1395,53 @@ components:
       - text
       - type
       additionalProperties: false
-    Option:
+    Embed:
       type: object
       properties:
-        externalId:
+        url:
           type: string
-          minLength: 1
-          description: Optional handle so a conditional can reference this option by id. Unique within the payload.
-        text:
+          format: uri
+        proxyUrl:
           type: string
-          minLength: 1
-        status:
+          format: uri
+      required:
+      - url
+      additionalProperties: false
+    SingleResponseTranscriptItem:
+      type: object
+      properties:
+        moderator:
+          type: string
+        user:
+          type: string
+        audio:
           type:
           - string
           - 'null'
-          enum:
-          - approve
-          - reject
-          - neutral
-          default: null
-          description: Required inside screening blocks, null elsewhere.
-        exclusiveOption:
+          format: uri
+          description: One-hour signed audio URL.
+        video:
+          allOf:
+          - $ref: '#/components/schemas/SingleResponseVideo'
+        responseIndex:
+          type: integer
+          minimum: 0
+        discussionGuideQuestionId:
+          type:
+          - string
+          - 'null'
+        conceptId:
+          type:
+          - string
+          - 'null'
+        isFollowUp:
           type: boolean
-          description: Only valid on the final option of a multi-select multiple_choice question; selecting it clears and locks the other options.
-      required:
-      - text
+        answerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
       additionalProperties: false
-    Item:
-      oneOf:
-      - $ref: '#/components/schemas/OpenEndedItem'
-      - $ref: '#/components/schemas/MultipleChoiceItem'
-      - $ref: '#/components/schemas/RankingItem'
-      - $ref: '#/components/schemas/MatrixItem'
-      - $ref: '#/components/schemas/MaxDiffItem'
-      - $ref: '#/components/schemas/StatementItem'
-      discriminator:
-        propertyName: type
-        mapping:
-          open_ended: '#/components/schemas/OpenEndedItem'
-          multiple_choice: '#/components/schemas/MultipleChoiceItem'
-          ranking: '#/components/schemas/RankingItem'
-          matrix: '#/components/schemas/MatrixItem'
-          max_diff: '#/components/schemas/MaxDiffItem'
-          statement: '#/components/schemas/StatementItem'
     CreateStudyRequest:
       type: object
       properties:
@@ -1346,6 +1470,74 @@ components:
       - studyGuide
       additionalProperties: false
       description: 'Rules enforced by the server: at most one screening block and it must be first; screening blocks may contain only multiple_choice items and every option must carry a status; concept blocks require conceptSamplingConfig (>=1 concept) and other blocks must omit it; externalIds must be unique across blocks, items, options, and concepts; conditional questionId and carryForwardFrom must reference the externalId of an earlier item; concept conditionals must reference an item in a block before the concept block.'
+    MultipleChoiceItem:
+      type: object
+      properties:
+        externalId:
+          type: string
+          minLength: 1
+          description: Stable identifier for this item. Auto-generated when omitted; set it only when a conditional (questionId) or carryForwardFrom references it. Unique within the payload.
+        text:
+          type: string
+          minLength: 1
+        conditional:
+          allOf:
+          - $ref: '#/components/schemas/Conditional'
+        media:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Media'
+        embed:
+          allOf:
+          - $ref: '#/components/schemas/Embed'
+        type:
+          type: string
+          enum:
+          - multiple_choice
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+          minItems: 1
+          description: Required unless carryForwardFrom is set; carry-forward questions inherit the source's selected options.
+        multiSelect:
+          type:
+          - boolean
+          - 'null'
+        allowCustomOption:
+          type:
+          - boolean
+          - 'null'
+        minSelect:
+          type:
+          - integer
+          - 'null'
+          exclusiveMinimum: 0
+        maxSelect:
+          type:
+          - integer
+          - 'null'
+          exclusiveMinimum: 0
+        randomizeOptionOrder:
+          type:
+          - boolean
+          - 'null'
+        pinnedFinalOption:
+          type:
+          - boolean
+          - 'null'
+        carryForwardFrom:
+          type:
+          - string
+          - 'null'
+          description: externalId of an earlier multi-select multiple_choice item; this question shows only the options the participant selected there.
+      required:
+      - text
+      - type
+      additionalProperties: false
+      description: minSelect/maxSelect must both be set or both null, only when multiSelect is true, and minSelect must be <= maxSelect. exclusiveOption is only valid on the final option of a multi-select.
     OpenEndedItem:
       type: object
       properties:
@@ -1403,143 +1595,46 @@ components:
       - text
       - type
       additionalProperties: false
-    ListResponsesResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/ListResponse'
-    ValidationError:
+    WelcomeMessage:
       type: object
       properties:
-        error:
+        title:
           type: string
-          description: Human-readable description of the failure.
-        code:
+        message:
           type: string
-          enum:
-          - invalid_json
-          - invalid_request_body
-          - invalid_study_guide
-          - wallet_required
-          - insufficient_credits
-          - bad_request
-          - missing_api_key
-          - invalid_api_key
-          - unauthorized
-          - launch_permission_denied
-          - wallet_access_denied
-          - forbidden
-          - study_not_found
-          - response_not_found
-          - not_found
-          - study_busy
-          - concurrent_modification
-          - conflict
-          - internal_error
-          description: Stable machine-readable error code. Branch on this, not on the `error` text, which may change.
-        issues:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          description: 'Present when code is `invalid_request_body`: the schema violations (Zod issues), each with a `path` and `message`.'
-      required:
-      - error
-      - code
       additionalProperties: false
-    MatrixItem:
+    SelectedTemplateOptionsCriterion:
       type: object
       properties:
-        externalId:
-          type: string
-          minLength: 1
-          description: Stable identifier for this item. Auto-generated when omitted; set it only when a conditional (questionId) or carryForwardFrom references it. Unique within the payload.
-        text:
-          type: string
-          minLength: 1
-        conditional:
-          allOf:
-          - $ref: '#/components/schemas/Conditional'
-        media:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Media'
-        embed:
-          allOf:
-          - $ref: '#/components/schemas/Embed'
         type:
           type: string
           enum:
-          - matrix
-        options:
+          - selectedTemplateOptions
+        questionId:
+          type: string
+          minLength: 1
+          description: externalId of an earlier multiple_choice or matrix item.
+        matchingCriteria:
+          type: string
+          enum:
+          - mustSelect
+          - mustNotSelect
+        choices:
           type: array
           items:
-            $ref: '#/components/schemas/Option'
+            type: string
           minItems: 1
-          description: The columns each row is single-select across.
-        rows:
-          type: array
-          items:
-            type: object
-            properties:
-              text:
-                type: string
-                minLength: 1
-            required:
-            - text
-            additionalProperties: false
-          minItems: 1
+          description: Option externalIds (falls back to option text). Columns for a matrix source.
+        matrixRow:
+          type:
+          - string
+          - 'null'
+          description: Required only for a matrix source; the exact row text.
       required:
-      - text
       - type
-      - options
-      - rows
-      additionalProperties: false
-    Concept_2:
-      type: object
-      properties:
-        externalId:
-          type: string
-          minLength: 1
-          description: Stable identifier for this concept. Auto-generated when omitted. Unique within the payload.
-        nickname:
-          type: string
-          minLength: 1
-        content:
-          type: object
-          properties:
-            title:
-              type: string
-            description:
-              type:
-              - string
-              - 'null'
-            media:
-              type: array
-              items:
-                $ref: '#/components/schemas/ConceptMedia'
-            embed:
-              type:
-              - object
-              - 'null'
-              properties:
-                url:
-                  type: string
-                  format: uri
-              required:
-              - url
-              additionalProperties: false
-          required:
-          - title
-          additionalProperties: false
-        conditional:
-          allOf:
-          - $ref: '#/components/schemas/Conditional'
-          description: Shows this concept only to participants matching the criteria, e.g. gate each concept on a screener answer. selectedTemplateOptions criteria must reference an item in a block before the concept block.
-      required:
-      - nickname
-      - content
+      - questionId
+      - matchingCriteria
+      - choices
       additionalProperties: false
     ListResponse:
       type: object
@@ -1621,122 +1716,83 @@ components:
       required:
       - concepts
       additionalProperties: false
-    Block:
+    CreditBalance:
       type: object
       properties:
-        externalId:
-          type: string
-          minLength: 1
-          description: Stable identifier for this block. Auto-generated when omitted. Unique within the payload.
-        type:
-          type: string
-          enum:
-          - flat
-          - concept
-          - screening
-        title:
-          type: string
-        conceptSamplingConfig:
-          allOf:
-          - $ref: '#/components/schemas/ConceptSamplingConfig'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-          minItems: 1
+        balance:
+          type: number
+          description: Credits currently available to spend.
+        usage:
+          type: number
+          description: Credits already used by this organization, including active holds.
       required:
-      - type
-      - title
-      - items
+      - balance
+      - usage
       additionalProperties: false
-    SingleResponseTranscriptItem:
+    LaunchRequest:
       type: object
       properties:
-        moderator:
+        walletId:
           type: string
-        user:
-          type: string
-        audio:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: One-hour signed audio URL.
-        video:
-          allOf:
-          - $ref: '#/components/schemas/SingleResponseVideo'
-        responseIndex:
-          type: integer
-          minimum: 0
-        discussionGuideQuestionId:
-          type:
-          - string
-          - 'null'
-        conceptId:
-          type:
-          - string
-          - 'null'
-        isFollowUp:
-          type: boolean
-        answerId:
-          type:
-          - string
-          - 'null'
           format: uuid
+          description: Wallet to bill this study from; must be granted to the API key's organization (see GET /api/public/v1/wallets). Omit to auto-select the organization's wallet when it has exactly one.
       additionalProperties: false
-    MaxDiffItem:
+      description: Optional body; omit it entirely to auto-select the wallet.
+    Error:
       type: object
       properties:
-        externalId:
+        error:
           type: string
-          minLength: 1
-          description: Stable identifier for this item. Auto-generated when omitted; set it only when a conditional (questionId) or carryForwardFrom references it. Unique within the payload.
-        text:
+          description: Human-readable description of the failure.
+        code:
           type: string
-          minLength: 1
-        conditional:
-          allOf:
-          - $ref: '#/components/schemas/Conditional'
-        media:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Media'
-        embed:
-          allOf:
-          - $ref: '#/components/schemas/Embed'
+          enum:
+          - invalid_json
+          - invalid_request_body
+          - invalid_study_guide
+          - wallet_required
+          - insufficient_credits
+          - bad_request
+          - missing_api_key
+          - invalid_api_key
+          - unauthorized
+          - launch_permission_denied
+          - wallet_access_denied
+          - forbidden
+          - study_not_found
+          - response_not_found
+          - not_found
+          - study_busy
+          - concurrent_modification
+          - conflict
+          - internal_error
+          description: Stable machine-readable error code. Branch on this, not on the `error` text, which may change.
+      required:
+      - error
+      - code
+      additionalProperties: false
+    SearchParamCriterion:
+      type: object
+      properties:
         type:
           type: string
           enum:
-          - max_diff
-        options:
-          type: array
-          items:
-            $ref: '#/components/schemas/Option'
-          minItems: 2
-          description: The items being compared.
-        metric:
-          type:
-          - string
-          - 'null'
-        itemsPerScreen:
-          anyOf:
-          - type: number
-            enum:
-            - 3
-          - type: number
-            enum:
-            - 4
-          - type: number
-            enum:
-            - 5
+          - searchParam
+        parameter:
+          type: string
+          minLength: 1
+        value:
+          type: string
       required:
-      - text
       - type
-      - options
+      - parameter
+      - value
       additionalProperties: false
-    LaunchResponse:
+    ListResponsesResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ListResponse'
+    CreateResponse:
       type: object
       properties:
         id:
@@ -1744,61 +1800,14 @@ components:
           format: uuid
         linkId:
           type: string
-        selfRecruitLink:
-          type: string
-          format: uri
         status:
           type: string
           enum:
-          - live
-        wallet:
-          allOf:
-          - $ref: '#/components/schemas/Wallet'
-          description: The wallet this launch is billed to. Omitted when no wallet is bound (organization without wallet billing).
+          - draft
       required:
       - id
       - linkId
-      - selfRecruitLink
       - status
-      additionalProperties: false
-    GetSingleResponseResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        readableId:
-          type: integer
-          exclusiveMinimum: 0
-        linkId:
-          type: string
-        urlParams:
-          type: object
-          additionalProperties:
-            type: string
-          description: Visible URL parameters.
-        tagline:
-          type:
-          - string
-          - 'null'
-          description: Generated tagline.
-        bulletSummary:
-          type: array
-          items:
-            type: string
-          description: Generated summary bullets.
-        transcript:
-          type: array
-          items:
-            $ref: '#/components/schemas/SingleResponseTranscriptItem'
-      additionalProperties: false
-    WelcomeMessage:
-      type: object
-      properties:
-        title:
-          type: string
-        message:
-          type: string
       additionalProperties: false
     ConceptMedia:
       type: object
@@ -1816,35 +1825,11 @@ components:
       - url
       - type
       additionalProperties: false
-    LaunchRequest:
-      type: object
-      properties:
-        walletId:
-          type: string
-          format: uuid
-          description: Wallet to bill this study from; must be granted to the API key's organization (see GET /api/public/v1/wallets). Omit to auto-select the organization's wallet when it has exactly one.
-      additionalProperties: false
-      description: Optional body; omit it entirely to auto-select the wallet.
   responses:
-    Unauthorized:
-      description: Missing or invalid credentials.
     NotFound:
       description: The requested resource was not found in the caller's organization.
-    Unauthorized_2:
-      description: 'Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            missingApiKey:
-              value:
-                error: Missing x-api-key header
-                code: missing_api_key
-            invalidApiKey:
-              value:
-                error: Invalid API key
-                code: invalid_api_key
+    Unauthorized:
+      description: Missing or invalid credentials.
     ServerError:
       description: 'Internal error (details are logged server-side, not returned). Codes: `internal_error`.'
       content:
@@ -1867,6 +1852,21 @@ components:
               value:
                 error: API key user is not a member of the key's organization
                 code: forbidden
+    Unauthorized_2:
+      description: 'Missing or invalid API key. Codes: `missing_api_key`, `invalid_api_key`.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            missingApiKey:
+              value:
+                error: Missing x-api-key header
+                code: missing_api_key
+            invalidApiKey:
+              value:
+                error: Invalid API key
+                code: invalid_api_key
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
