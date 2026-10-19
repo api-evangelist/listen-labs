@@ -1,8 +1,8 @@
 {
   "provider": "listen-labs",
   "sources": [
-    "_original/listen-labs-study-data-openapi.json",
-    "_original/listen-labs-v2-openapi.yml"
+    "_original/listen-labs-openapi.yml",
+    "_original/listen-labs-study-data-openapi.json"
   ],
   "outputs": [
     "listen-labs-public-api-openapi.yml"
@@ -12,20 +12,25 @@
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "listen-labs-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "listen-labs-openapi.yml: tagged paths POST /api/public/v1/studies/create -> Public",
+    "listen-labs-openapi.yml: tagged paths GET /api/public/v1/studies -> Public",
+    "listen-labs-openapi.yml: tagged paths GET /api/public/v1/studies/{studyId}/questions -> Public",
+    "listen-labs-openapi.yml: tagged paths GET /api/public/v1/responses/{linkId} -> Public",
+    "listen-labs-openapi.yml: tagged paths GET /api/public/v1/responses -> Public",
+    "listen-labs-openapi.yml: tagged paths DELETE /api/public/v1/responses -> Public",
+    "listen-labs-openapi.yml: tagged paths GET /api/public/v1/response-deletions/{deletionId} -> Public",
+    "listen-labs-openapi.yml: tagged paths GET /api/public/v1/responses/{linkId}/{responseId} -> Public",
+    "listen-labs-openapi.yml: tagged paths POST /api/public/v1/studies/{studyId}/launch -> Public",
+    "listen-labs-openapi.yml: tagged paths GET /api/public/v1/wallets -> Public",
+    "listen-labs-openapi.yml: declared missing tag: Public",
     "listen-labs-study-data-openapi.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "listen-labs-study-data-openapi.json: tagged paths GET /api/public/list_surveys -> Public",
     "listen-labs-study-data-openapi.json: tagged paths GET /api/public/responses/{link_id} -> Public",
     "listen-labs-study-data-openapi.json: tagged paths GET /api/public/responses/{link_id}/{response_id} -> Public",
     "listen-labs-study-data-openapi.json: tagged paths GET /api/public/studies/{study_id}/questions -> Public",
     "listen-labs-study-data-openapi.json: declared missing tag: Public",
-    "listen-labs-v2-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "listen-labs-v2-openapi.yml: tagged paths POST /api/public/v1/studies/create -> Public",
-    "listen-labs-v2-openapi.yml: tagged paths GET /api/public/v1/responses/{linkId} -> Public",
-    "listen-labs-v2-openapi.yml: tagged paths GET /api/public/v1/responses/{linkId}/{responseId} -> Public",
-    "listen-labs-v2-openapi.yml: tagged paths POST /api/public/v1/studies/{studyId}/launch -> Public",
-    "listen-labs-v2-openapi.yml: tagged paths GET /api/public/v1/wallets -> Public",
-    "listen-labs-v2-openapi.yml: declared missing tag: Public",
-    "tag 'Public' spans 2 source specs (listen-labs-study-data-openapi.json, listen-labs-v2-openapi.yml): per-path servers applied",
+    "tag 'Public' spans 2 source specs (listen-labs-openapi.yml, listen-labs-study-data-openapi.json): per-path servers applied",
     "apis.yml register: already-registered"
   ],
   "skipped": [

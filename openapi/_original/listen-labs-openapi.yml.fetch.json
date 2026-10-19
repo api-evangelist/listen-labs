@@ -1,0 +1,12 @@
+{
+ "url": "https://listenlabs.ai/openapi.yaml",
+ "final": "https://listenlabs.ai/openapi.yaml",
+ "status": 200,
+ "content_type": "text/yaml",
+ "bytes": 64618,
+ "sha256": "29976f7349e311346b351835712f8e7a10d62f13c6f6ed17952082ff165d2b31",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}
