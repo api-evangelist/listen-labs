@@ -31,6 +31,31 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-agent-skills.py
   first_seen: '2026-10-20'
+- partner_name: Insights Association
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.insightsassociation.org/Membership/Our-Members
+  category: market research trade association membership
+  contract_reference:
+    register: Insights Association member organisations (insightsassociation.org/Membership/Our-Members, organizationdll.dll/List)
+    standard: Insights Association Code of Standards
+    spec_file: null
+    role: insights-association-member
+    registered_name: Listen Labs
+    partner_tier: Agency/Supplier
+    register_location: San Francisco, CA
+    matched_domain: listenlabs.ai
+    matched_by: domain
+    signal_note: 'participation: member organisation bound by the IA Code of Standards; CIRQ certifications -> certified_products
+      (one per certification type); GDQ Pledge / Privacy Framework are context, never counted'
+    detected_by: sweep-surveys-research.py
+    detected: '2026-10-20'
+  detected_by: sweep-surveys-research.py
+  first_seen: '2026-10-20'
 generated: '2026-10-20'
 method: searched
 source:
@@ -42,3 +67,5 @@ checked:
 - https://officialskills.sh/sitemap.xml
 - https://skillsmp.com/sitemap.xml
 - https://www.skills.sh/sitemap.xml
+- https://www.insightsassociation.org/Membership/Our-Members
+- https://www.insightsassociation.org/cv5/cgi-bin/organizationdll.dll/List
