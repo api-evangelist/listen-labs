@@ -64,6 +64,115 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Listen Labs is a company surfaced as a portfolio company of ribbit-capital and added to the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the enrichment pipeline.
+Listen Labs is an AI-powered customer research platform that runs AI-moderated user interviews end to end: you define a research goal and a study guide, Listen recruits and screens participants from its panel or your own list, conducts multilingual voice interviews with an AI moderator, and then analyzes the transcripts into themes, segments, executive summaries, video highlight reels, and sourced quotes. The platform is programmable through a public REST API that lets you create a draft study from a JSON study guide, launch it to obtain a self-recruit link, and pull back responses, answers, transcripts, and per-question analysis. Listen Labs also publishes an officially hosted remote MCP server with OAuth 2.1 so agents in Claude, ChatGPT, and Codex can create, edit, launch, and analyze studies conversationally.
 
-Backed by: ribbit-capital — https://www.listenlabs.ai
+**Areas:** Company · Artificial Intelligence · Market Research · Customer Research · User Interviews · Surveys · Qualitative Research · Voice AI · Insights · Agents
+
+## Listen Labs on APIs.io
+
+Everything profiled for Listen Labs is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/listen-labs/](https://apis.io/providers/listen-labs/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Listen Labs Public API](https://apis.io/apis/listen-labs/listen-labs-public-api/) — The Public API from Listen Labs — 9 operation(s) for public.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Listen Labs](https://apis.io/servers/listen-labs/listen-labs/)
+
+#### Collections (1)
+
+Postman and Open Collection request collections.
+
+- [Listen Labs API — Study Data Public API](https://apis.io/collections/listen-labs/open-listen-labs-public-api/)
+
+#### Overlays (2)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Listen Labs Study Data Overlay](https://apis.io/overlays/listen-labs/listen-labs-study-data-overlay/)
+- [Listen Labs V2 Overlay](https://apis.io/overlays/listen-labs/listen-labs-v2-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Listen Labs Authentication](https://apis.io/security/listen-labs/listen-labs-authentication/)
+- [Listen Labs Domain Security](https://apis.io/security/listen-labs/listen-labs-domain-security/)
+- [Listen Labs Trust Center](https://apis.io/security/listen-labs/listen-labs-trust-center/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.listenlabs.ai)
+- [Documentation](https://docs.listenlabs.ai)
+- [Getting started](https://docs.listenlabs.ai/api-v2/quickstart)
+- [API reference](https://docs.listenlabs.ai/api-v2/overview)
+- [Sign up](https://listenlabs.ai/auth)
+- [Blog](https://listenlabs.ai/blog)
+- [Compliance](https://trust.listenlabs.ai)
+- [Terms of service](https://www.listenlabs.ai/terms)
+- [Privacy policy](https://www.listenlabs.ai/privacy)
+- [GitHub](https://github.com/MerlinAGI)
+
+## API Evangelist rating
+
+**Kin Score 49.3** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.7 |
+| Contract quality | 51.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 64.3 |
+| Access clarity | 50.0 |
+
+**Agent readiness 55.4** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 27.3** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/listen-labs/](https://apis.io/providers/listen-labs/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Listen Labs: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/listen-labs/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
